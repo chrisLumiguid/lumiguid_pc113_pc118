@@ -23,10 +23,10 @@ return new class extends Migration
             $table->text('address');
             $table->enum('gender', ['Male', 'Female']);
             $table->string('guardian_name');
-            $table->integer('year_level'); // Add this line
-            $table->integer('dept_id'); // Add this line
-            $table->integer('program_id'); // Add this line
-            $table->enum('status', ['active', 'inactive']); // Add this line
+            $table->integer('year_level'); 
+            $table->integer('dept_id'); 
+            $table->integer('program_id'); 
+            $table->enum('status', ['active', 'inactive']); 
             $table->timestamps();
         });
     }
