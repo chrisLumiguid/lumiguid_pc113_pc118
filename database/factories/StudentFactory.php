@@ -35,9 +35,6 @@ class StudentFactory extends Factory
             'address' => $this->faker->address,
             'gender' => $this->faker->randomElement(['male', 'female']),
             'year_level' => $this->faker->numberBetween(1, 4),
-            'dept_id' => $this->faker->numberBetween(1, 10),
-            'program_id' => $this->faker->numberBetween(1, 10),
-            'status' => $this->faker->randomElement(['active', 'inactive']),
             'guardian_name' => $this->faker->name,
         ];
     }

@@ -24,9 +24,6 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female']);
             $table->string('guardian_name');
             $table->integer('year_level'); 
-            $table->integer('dept_id'); 
-            $table->integer('program_id'); 
-            $table->enum('status', ['active', 'inactive']); 
             $table->timestamps();
         });
     }
