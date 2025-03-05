@@ -9,6 +9,8 @@ use App\Models\User;
 class UserController extends Controller
 {
 
+
+    // this is for activity 4
     public function create(Request $request)
     {
         $data = $request->validate([
@@ -39,9 +41,6 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalid email or password'], 401);
         }
 
-        // $token = $user->createToken($request->device_name ?? 'default_token')->plainTextToken;
-    
-        // $token = $user->createToken('postman', ['*'])->plainTextToken;
 
         $token = $user->createToken('auth_token')->plainTextToken;
         $tokenParts = explode('|', $token);
@@ -49,7 +48,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Login successful',
-            'token' => $tokenOnly, //$token
+            'token' => $tokenOnly, 
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
