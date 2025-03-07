@@ -14,14 +14,18 @@ class PermissionMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-     public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if ($user = User::where('email', $request->email)->first()) {
-            if ($user->role == 'admin') {
-                return $next($request);
+        try {
+            if ($user = User::where('email', $request->email)->first()) {
+                if ($user->role == 'admin') {
+                    return $next($request);
+                }
             }
+            return response()->json(['message' => 'Unauthorized'], 401);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error checking user permissions', 'error' => $e->getMessage()], 500);
         }
-        return response()->json(['message' => 'Unauthorized'], 401);
-
     }
+
 }

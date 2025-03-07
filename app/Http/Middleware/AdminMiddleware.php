@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
+
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            return $next($request);
+        try {
+            if (Auth::check() && Auth::user()->role == 'admin') {
+                return $next($request);
+            }
+            return response()->json(['message' => 'Unauthorized! You are not an admin!'], 401);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error processing request', 'error' => $e->getMessage()], 500);
         }
-        return response()->json(['message' => 'Unauthorized! You are not an admin!'], 401);
-
     }
 }
 
