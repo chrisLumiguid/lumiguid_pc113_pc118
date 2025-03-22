@@ -80,7 +80,7 @@
 
     <div class="sidebar">
         <h3>Admin Panel</h3>
-        <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a href="manage_students.php"><i class="bi bi-people"></i> Manage Students</a>
         <a href="manage_employees.php"><i class="bi bi-person-badge"></i> Manage Employees</a>
         <a href="#"><i class="bi bi-gear"></i> Settings</a>

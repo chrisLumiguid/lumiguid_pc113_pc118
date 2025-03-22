@@ -16,7 +16,7 @@ Route::get('/profile', [UserController::class, 'profile']);
 
 
 Route::get('/students', [ListController::class, 'index']);
-
+Route::get('/employees', [ListController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/employeeList', [UserController::class, 'employeeList']);
