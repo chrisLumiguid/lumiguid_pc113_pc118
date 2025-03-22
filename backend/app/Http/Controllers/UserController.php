@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use App\Models\User;
 
+
 class UserController extends Controller
 {
     // Create User
@@ -36,7 +37,7 @@ class UserController extends Controller
             $credentials = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|string',
-                'device_name' => 'required|string',
+                // 'device_name' => 'required|string',
             ]);
 
             $user = User::where('email', $credentials['email'])->first();
@@ -67,6 +68,8 @@ class UserController extends Controller
         }
     }
 
+
+
     // Get Authenticated User Profile
     public function profile()
     {
@@ -82,4 +85,30 @@ class UserController extends Controller
             return response()->json(['message' => 'Failed to fetch user profile', 'error' => $e->getMessage()], 500);
         }
     }
+
+    // User Logout
+    // public function logout(Request $request)
+    // {
+    //     try {
+    //         $request->user()->tokens()->delete();
+
+    //         return response()->json(['message' => 'Logged out successfully']);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
+    //     }
+    // }
+    public function logout(Request $request)
+{
+    try {
+        if (Auth::guard('sanctum')->check()) {
+            $request->user()->tokens()->delete();
+            return response()->json(['message' => 'Logged out successfully']);
+        }
+        return response()->json(['message' => 'Unauthorized'], 401);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
+    }
+}
+
+
 }
