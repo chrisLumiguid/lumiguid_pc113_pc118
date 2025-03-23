@@ -9,6 +9,7 @@
     <title>Manage Students</title>
 </head>
 <body>
+     <?php include 'sidebar.php'; ?>
     <div class="content">
         <div class="container-fluid">
             <!-- Back to Dashboard Button -->
