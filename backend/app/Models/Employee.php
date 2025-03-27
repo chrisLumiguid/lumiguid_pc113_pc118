@@ -16,15 +16,11 @@ class Employee extends Model
         'f_name', 
         'l_name', 
         'birth_date', 
-        'age',
         'email', 
         'phone', 
+        'birth_date',
         'address', 
         'gender', 
-        'year_level', 
-        'dept_id', 
-        'program_id', 
-        'status', 
         'guardian_name', 
     ];
 }

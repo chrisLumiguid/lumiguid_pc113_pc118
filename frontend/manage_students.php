@@ -1,30 +1,43 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <title>Manage Students</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        .content { 
+            padding: 20px; 
+            margin-top: 950px;
+        }
+        .dataTables_wrapper { margin-top: 20px; }
+        .card { margin-top: 20px; }
+    </style>
 </head>
 <body>
-     <?php include 'sidebar.php'; ?>
+    <?php include 'sidebar.php'; ?>
     <div class="content">
         <div class="container-fluid">
-            <!-- Back to Dashboard Button -->
             <div class="d-flex justify-content-start my-3">
-                <a href="dashboard.php" class="btn btn-primary">
-                    <i class="bi bi-arrow-left"></i> Back to Dashboard
-                </a>
             </div>
-
-            <h1 class="text-center mb-4">Manage Students</h1>
-            <p class="text-center">View and manage student records.</p>
-
-            <!-- Students List Section -->
-            <div class="mt-4">
-                <h2>Students List</h2>
+            <div class="text-center my-4">
+                <h1>Manage Students</h1>
+                <p>View and manage student records.</p>
+            </div>
+            <div class="card shadow p-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Students List</h2>
+                    <button class="btn btn-success" id="addStudentBtn">
+                        <i class="bi bi-plus-circle"></i> Add New Student
+                    </button>
+                </div>
                 <table id="studentsTable" class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -67,79 +80,77 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Fetch data from the students API
-            $.ajax({
-                url: 'http://127.0.0.1:8000/api/students', // Replace with your API endpoint
-                method: 'GET',
-                success: function (data) {
-                    let tableBody = '';
-                    data.students.forEach((student, index) => {
-                        tableBody += `
-                            <tr data-student='${JSON.stringify(student)}'>
-                                <td>${index + 1}</td>
-                                <td>${student.f_name} ${student.l_name}</td>
-                                <td>${student.year_level || 'N/A'}</td>
-                                <td>${student.email || 'N/A'}</td>
-                                <td>${student.phone || 'N/A'}</td>
-                                <td>${student.address || 'N/A'}</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm edit-btn">Edit</button>
-                                    <button class="btn btn-danger btn-sm delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                    $('#studentsTable tbody').html(tableBody);
-                    $('#studentsTable').DataTable({
-                        responsive: true,
-                        paging: true,
-                        searching: true,
-                        ordering: true,
-                        lengthMenu: [5, 10, 25, 50],
-                        language: {
-                            search: "Search:",
-                            lengthMenu: "Show _MENU_ entries",
-                            info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                        }
-                    });
+            const table = $('#studentsTable').DataTable({
+                responsive: true,
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10
+            });
 
-                    // Row click event to view details
-                    $('#studentsTable tbody').on('click', 'tr', function () {
-                        const student = $(this).data('student');
-                        if (student) {
-                            $('#studentName').text(`${student.f_name} ${student.l_name}`);
-                            $('#studentYearLevel').text(student.year_level || 'N/A');
-                            $('#studentEmail').text(student.email || 'N/A');
-                            $('#studentPhone').text(student.phone || 'N/A');
-                            $('#studentAddress').text(student.address || 'N/A');
-                            $('#studentModal').modal('show');
-                        }
-                    });
+            function loadStudents() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/students', // Replace with your API endpoint
+                    method: 'GET',
+                    success: function (response) {
+                        table.clear();
+                        response.forEach((student, index) => {
+                            table.row.add([
+                                index + 1,
+                                student.f_name + ' ' + student.l_name,
+                                student.year_level || 'N/A',
+                                student.email || 'N/A',
+                                student.phone || 'N/A',
+                                student.address || 'N/A',
+                                `<button class="btn btn-warning btn-sm edit-btn">Edit</button>
+                                 <button class="btn btn-danger btn-sm delete-btn">Delete</button>`
+                            ]).draw();
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error fetching students:', error);
+                    }
+                });
+            }
 
-                    // Edit button click event
-                    $('#studentsTable tbody').on('click', '.edit-btn', function (e) {
-                        e.stopPropagation(); // Prevent triggering the row click event
-                        alert('Edit functionality not implemented yet.');
-                    });
+            loadStudents();
 
-                    // Delete button click event
-                    $('#studentsTable tbody').on('click', '.delete-btn', function (e) {
-                        e.stopPropagation(); // Prevent triggering the row click event
-                        alert('Delete functionality not implemented yet.');
-                    });
-                },
-                error: function (error) {
-                    console.error('Error fetching students:', error);
+            // Add Student Button
+            $('#addStudentBtn').on('click', function () {
+                alert('Add Student functionality not implemented yet.');
+            });
+
+            // Row click event to view details
+            $('#studentsTable tbody').on('click', 'tr', function () {
+                const student = table.row(this).data();
+                if (student) {
+                    $('#studentName').text(student[1]);
+                    $('#studentYearLevel').text(student[2]);
+                    $('#studentEmail').text(student[3]);
+                    $('#studentPhone').text(student[4]);
+                    $('#studentAddress').text(student[5]);
+                    $('#studentModal').modal('show');
                 }
+            });
+
+            // Edit button click event
+            $('#studentsTable tbody').on('click', '.edit-btn', function (e) {
+                e.stopPropagation(); // Prevent triggering the row click event
+                alert('Edit functionality not implemented yet.');
+            });
+
+            // Delete button click event
+            $('#studentsTable tbody').on('click', '.delete-btn', function (e) {
+                e.stopPropagation(); // Prevent triggering the row click event
+                alert('Delete functionality not implemented yet.');
             });
         });
     </script>

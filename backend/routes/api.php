@@ -10,30 +10,25 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/create-user', [UserController::class, 'create']);
-Route::post('/login', [UserController::class, 'login']);
+
 Route::get('/index', [UserController::class, 'index']);
 Route::get('/profile', [UserController::class, 'profile']);
 
+Route::post('/create', [ListController::class, 'create']);
+Route::get('/students', [ListController::class, 'getStudents']);
+Route::get('/employees', [ListController::class, 'getEmployees']); 
+Route::post('/login', [UserController::class, 'login']);
 
-Route::get('/students', [ListController::class, 'index']);
-Route::get('/employees', [ListController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/employeeList', [UserController::class, 'employeeList']);
-    
-    // Employee Routes
-    Route::get('/employees', [ListController::class, 'employee']);
     Route::get('/search-employees', [ListController::class, 'searchEmployees']);
-
-    // Student Routes
-
     Route::get('/search-students', [ListController::class, 'searchStudents']);
     
-    Route::get('/limit', [ListController::class, 'limit']);
-    Route::post('/create', [ListController::class, 'create']);
+
+    Route::put('/update/{id}/{type}', [ListController::class, 'update']);
     Route::delete('/delete/{id}/{type}', [ListController::class, 'delete']);
-    Route::put('/update/{id}', [ListController::class, 'update']);
 });
+
 
 // Admin Dashboard Route
 Route::middleware('auth:sanctum')->get('/admin/dashboard', function (Request $request) {
