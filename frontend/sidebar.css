@@ -1,0 +1,89 @@
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, #2c3e50, #34495e); /* Gradient for a modern look */
+    color: #ecf0f1; /* Light text color */
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Stronger shadow for depth */
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-header {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ecf0f1; /* Light text color */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Subtle divider */
+    padding-bottom: 10px;
+    text-transform: uppercase; /* Professional uppercase text */
+    letter-spacing: 1px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar-menu li {
+    margin: 10px 0;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #bdc3c7; /* Muted text color */
+    padding: 12px 20px;
+    border-radius: 8px; /* Rounded corners for a modern look */
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar-menu li a i {
+    margin-right: 15px;
+    font-size: 1.4rem; /* Slightly larger icons */
+    color: #ecf0f1; /* Icon color matches text */
+}
+
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+    color: #ffffff; /* Bright text on hover */
+    transform: translateX(5px); /* Slight movement for interactivity */
+}
+
+.sidebar-menu li a .badge {
+    margin-left: auto;
+    background-color: #e74c3c; /* Professional red for badges */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.menu-divider {
+    margin: 20px 0 10px;
+    padding: 0 20px;
+    font-size: 0.9rem;
+    color: #95a5a6; /* Muted gray for dividers */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider line */
+    padding-top: 10px;
+}
+
+.sidebar-footer {
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 0.9rem;
+    color: #95a5a6; /* Muted footer text */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Footer divider */
+}

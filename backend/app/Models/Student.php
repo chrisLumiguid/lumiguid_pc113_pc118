@@ -16,13 +16,13 @@ class Student extends Model
         'f_name', 
         'l_name', 
         'birth_date', 
-        'age',
         'email', 
         'phone', 
         'address', 
         'gender', 
         'guardian_name', 
-        'year_level',  
+        'year_level', 
+        'age' 
 
     ];
 }

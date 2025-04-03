@@ -11,21 +11,34 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- Sidebar CSS -->
+    <link rel="stylesheet" href="sidebar.css">
 
     <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
         .content {
-        margin-top: 550px;
-    }
+            margin-left: 250px; /* Matches the sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #f8f9fa; /* Light background for content */
+        }
+
         .dataTables_wrapper { margin-top: 20px; }
         .card { margin-top: 20px; }
     </style>
 </head>
 <body>
-    <?php include 'sidebar.php' ?>
+    <!-- Include Sidebar -->
+    <?php include 'sidebar.php'; ?>
+
+    <!-- Main Content -->
     <div class="content">
         <div class="container-fluid">
-            <div class="d-flex justify-content-start my-3">
-            </div>
             <div class="text-center my-4">
                 <h1>Manage Employees</h1>
                 <p>View and manage employee records.</p>
@@ -118,86 +131,93 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            const table = $('#employeesTable').DataTable({
-                responsive: true,
-                paging: true,
-                searching: true,
-                ordering: true,
-                lengthMenu: [10, 25, 50, 100],
-                pageLength: 10
-            });
+<script>
+    $(document).ready(function () {
+    const table = $('#employeesTable').DataTable({
+        responsive: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthMenu: [10, 25, 50, 100],
+        pageLength: 10
+    });
 
-            function loadEmployees() {
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/employees',
-                    method: 'GET',
-                    success: function (response) {
-                        table.clear();
-                        response.forEach((employee, index) => {
-                            table.row.add([
-                                index + 1,
-                                employee.employee_id_number,
-                                employee.f_name + ' ' + employee.l_name,
-                                employee.birth_date || 'N/A',
-                                employee.email || 'N/A',
-                                employee.phone || 'N/A',
-                                `<button class="btn btn-warning btn-sm">Edit</button>
-                                 <button class="btn btn-danger btn-sm">Delete</button>`
-                            ]).draw();
-                        });
-                    },
-                    error: function (error) {
-                        console.error('Error loading employees:', error);
-                    }
+function loadEmployees() {
+    $.ajax({
+        url: 'http://localhost:8000/api/employees',
+        method: 'GET',
+        success: function (response) {
+            // Validate that 'response.data' is an array
+            if (response && Array.isArray(response.data)) {
+                table.clear(); // Clear any existing data in the table
+                response.data.forEach((employee, index) => {
+                    table.row.add([
+                        index + 1,
+                        employee.employee_id_number,
+                        employee.f_name + ' ' + employee.l_name,
+                        employee.birth_date || 'N/A',
+                        employee.email || 'N/A',
+                        employee.phone || 'N/A',
+                        `<button class="btn btn-warning btn-sm">Edit</button>
+                         <button class="btn btn-danger btn-sm">Delete</button>`
+                    ]).draw();
                 });
+            } else {
+                console.error("Invalid response format. Expected an array in 'data', but received:", response);
+                alert("Failed to load employees. Please check the server response.");
             }
+        },
+        error: function (error) {
+            console.error('Error loading employees:', error);
+            alert('Unable to fetch employee data. Please try again later.');
+        }
+    });
+}
 
-            loadEmployees();
+  
 
-            $('#addEmployeeBtn').on('click', function () {
-                $('#addEmployeeModal').modal('show');
-            });
+  
 
-            $('#addEmployeeForm').on('submit', function (e) {
-                e.preventDefault();
+    loadEmployees();
 
-                const newEmployee = {
-                    type: 'employee',
-                    employee_id_number: $('#employeeID').val(),
-                    f_name: $('#firstName').val(),
-                    l_name: $('#lastName').val(),
-                    birth_date: $('#birthDate').val(),
-                    email: $('#email').val(),
-                    phone: $('#phone').val(),
-                    address: $('#address').val(),
-                    gender: $('#gender').val(),
-                    guardian_name: $('#guardianName').val()
-                };
+    $('#addEmployeeBtn').on('click', function () {
+        $('#addEmployeeModal').modal('show');
+    });
 
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/create',
-                    method: 'POST',
-                    contentType: 'application/json', 
-                    data: JSON.stringify(newEmployee), 
-                    success: function () {
-                        alert('Employee added successfully!');
-                        $('#addEmployeeModal').modal('hide');
-                        $('#addEmployeeForm')[0].reset();
-                        loadEmployees();
-                    },
-                    error: function (error) {
-                        console.error('Error adding employee:', error);
-                        if (error.status === 0) {
-                            alert('Failed to connect to the server. Please ensure the backend is running.');
-                        } else {
-                            alert('Failed to add employee. Check the console for details.');
-                        }
-                    }
-                });
-            });
+    $('#addEmployeeForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const newEmployee = {
+            type: 'employee',
+            employee_id_number: $('#employeeID').val(),
+            f_name: $('#firstName').val(),
+            l_name: $('#lastName').val(),
+            birth_date: $('#birthDate').val(),
+            email: $('#email').val(),
+            phone: $('#phone').val(),
+            address: $('#address').val(),
+            gender: $('#gender').val(),
+            guardian_name: $('#guardianName').val()
+        };
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/api/create', // Adjust if needed
+            method: 'POST',
+            contentType: 'application/json', 
+            data: JSON.stringify(newEmployee), 
+            success: function () {
+                alert('Employee added successfully!');
+                $('#addEmployeeModal').modal('hide');
+                $('#addEmployeeForm')[0].reset();
+                loadEmployees();
+            },
+            error: function (error) {
+                console.error('Error adding employee:', error);
+                alert('Failed to add employee. Check the console for details.');
+            }
         });
+    });
+});
     </script>
 </body>
 </html>

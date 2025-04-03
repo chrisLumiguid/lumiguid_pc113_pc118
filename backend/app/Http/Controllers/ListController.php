@@ -10,22 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class ListController extends Controller {
 
-    // public function index() {
-    //     try {
-    //         return response()->json([
-    //             'students' => Student::all(),
-    //             'employees' => Employee::all(),
-    //         ]);
-    //     } catch (Exception $e) {
-    //         return response()->json(['error' => $e->getMessage()], 500);
-    //     }
-    // }
-
-
     public function getEmployees() {
         try {
             $employees = Employee::all();
-            return response()->json($employees);
+            return response()->json([
+                'type' => 'Employees List',
+                'data' => $employees
+            ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -34,7 +25,10 @@ class ListController extends Controller {
     public function getStudents() {
         try {
             $students = Student::all();
-            return response()->json($students);
+            return response()->json([
+                'type' => 'Students List',
+                'data' => $students
+            ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -44,18 +38,30 @@ class ListController extends Controller {
     public function search(Request $request) {
         try {
             $search = $request->input('search');
+            $type = $request->input('type'); 
 
-            $students = Student::where('f_name', 'LIKE', "%{$search}%")
-                            ->orWhere('l_name', 'LIKE', "%{$search}%")
-                            ->orWhere('email', 'LIKE', "%{$search}%")
-                            ->orWhere('phone', 'LIKE', "%{$search}%")
-                            ->get();
+            if (!$search) {
+                return response()->json(['error' => 'Search query is required'], 400);
+            }
 
-            $employees = Employee::where('f_name', 'LIKE', "%{$search}%")
-                            ->orWhere('l_name', 'LIKE', "%{$search}%")
-                            ->orWhere('email', 'LIKE', "%{$search}%")
-                            ->orWhere('phone', 'LIKE', "%{$search}%")
-                            ->get();
+            $students = collect();
+            $employees = collect();
+
+            if ($type === 'student' || !$type) {
+                $students = Student::where('f_name', 'LIKE', "%{$search}%")
+                    ->orWhere('l_name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%")
+                    ->get();
+            }
+
+            if ($type === 'employee' || !$type) {
+                $employees = Employee::where('f_name', 'LIKE', "%{$search}%")
+                    ->orWhere('l_name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%")
+                    ->get();
+            }
 
             return response()->json([
                 'students' => $students,
@@ -67,11 +73,16 @@ class ListController extends Controller {
     }
 
 
-public function create(Request $request) {
+
+
+public function create(Request $request, $type) {
     try {
         Log::info('Create request received', $request->all());
 
-        $type = $request->input('type');
+        
+        $type = strtolower($type);
+
+        
         if (!in_array($type, ['student', 'employee'])) {
             return response()->json(['error' => 'Invalid type provided.'], 400);
         }
@@ -87,10 +98,12 @@ public function create(Request $request) {
             'address' => 'required|string',
             'gender' => 'required|in:Male,Female',
             'guardian_name' => 'required|string',
+            'age' => 'required|integer',
         ];
 
         if ($type === 'student') {
             $rules['year_level'] = 'required|integer';
+            $rules['age']  = 'required|integer';
             $rules['student_id_number'] = 'required|string|unique:students,student_id_number';
         }
 
@@ -98,25 +111,17 @@ public function create(Request $request) {
             $rules['employee_id_number'] = 'required|string|unique:employees,employee_id_number';
         }
 
-        try {
-            $validatedData = $request->validate($rules);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Validation failed: ' . json_encode($e->errors()));
-            return response()->json(['error' => $e->errors()], 422);
-        }
+        
+        $validatedData = $request->validate($rules);
 
-        try {
-            $record = $type === 'student' ? Student::create($validatedData) : Employee::create($validatedData);
-        } catch (\Exception $e) {
-            Log::error('Database error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to create record.'], 500);
-        }
+        
+        $record = $type === 'student' ? Student::create($validatedData) : Employee::create($validatedData);
 
         return response()->json([
             'message' => ucfirst($type) . ' created successfully',
             $type => $record
         ], 201);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         Log::error('Error creating record: ' . $e->getMessage());
         return response()->json(['error' => $e->getMessage()], 500);
     }
@@ -140,37 +145,50 @@ public function create(Request $request) {
         }
     }
 
-    public function update(Request $request, $id, $type) {
-        try {
-            $table = $type === 'student' ? 'students' : 'employees';
-            $model = $type === 'student' ? Student::find($id) : Employee::find($id);
+public function update(Request $request, $id, $type) {
+    try {
+        Log::info("Updating {$type} with ID: {$id}");
 
-            if (!$model) {
-                return response()->json(['message' => ucfirst($type) . ' not found'], 404);
-            }
+        $table = $type === 'student' ? 'students' : 'employees';
+        $model = $type === 'student' ? Student::find($id) : Employee::find($id);
 
-            $validatedData = $request->validate([
-                'f_name' => 'required|string',
-                'l_name' => 'required|string',
-                'email' => 'required|email|unique:' . $table . ',email,' . $id,
-                'phone' => 'required|string|unique:' . $table . ',phone,' . $id,
-                'birth_date' => 'required|date',
-                'age' => 'required|integer',
-                'address' => 'required|string',
-                'gender' => 'required|in:Male,Female',
-                'guardian_name' => 'required|string',
-            ]);
-
-            $model->update($validatedData);
-
-            return response()->json([
-                'message' => ucfirst($type) . ' updated successfully!',
-                $type => $model,
-            ]);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        if (!$model) {
+            Log::error("{$type} not found with ID: {$id}");
+            return response()->json(['message' => ucfirst($type) . ' not found'], 404);
         }
+
+        Log::info('Model found:', ['model' => $model]);
+
+        // Allow fields to be optional during update
+        $validatedData = $request->validate([
+            'f_name' => 'sometimes|required|string',
+            'l_name' => 'sometimes|required|string',
+            'email' => 'sometimes|required|email|unique:' . $table . ',email,' . $id,
+            'phone' => 'sometimes|required|string|unique:' . $table . ',phone,' . $id,
+            'year_level' => 'sometimes|integer',
+            'birth_date' => 'sometimes|date',
+            'age' => 'sometimes|integer',
+            'address' => 'sometimes|string',
+            'gender' => 'sometimes|in:Male,Female',
+            'guardian_name' => 'sometimes|string',
+        ]);
+
+        Log::info('Validated data:', ['data' => $validatedData]);
+
+        // Update only the fields sent by the user
+        $model->update($validatedData);
+
+        return response()->json([
+            'message' => ucfirst($type) . ' updated successfully!',
+            $type => $model,
+        ]);
+    } catch (Exception $e) {
+        Log::error('Error updating record: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
+
 
     public function delete($id, $type) {
         try {
