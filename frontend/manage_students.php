@@ -143,7 +143,49 @@
                             <label class="form-label">Age</label>
                             <input type="number" class="form-control" id="addAge" required>
                         </div>
-                        <button type="submit" class="btn btn-custom">Add Student</button>
+                    <button type="submit" class="btn btn-custom">Add Student</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Updating Student -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editStudentForm">
+                        <input type="hidden" id="editStudentID">
+                        <div class="mb-3">
+                            <label class="form-label">Student ID</label>
+                            <input type="text" class="form-control" id="editStudentIDNumber" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="editFirstName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="editLastName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Year Level</label>
+                            <input type="number" class="form-control" id="editYearLevel" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="editPhone" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom">Update Student</button>
                     </form>
                 </div>
             </div>
@@ -185,40 +227,49 @@
 
             loadStudents();
 
+            // Add Student Button
             $('#addStudentBtn').on('click', function () {
                 $('#addStudentModal').modal('show');
             });
 
-            $('#addStudentForm').on('submit', function (event) {
+            // Edit Student Button (to show the edit modal)
+            $(document).on('click', '.btn-edit', function () {
+                const student = $(this).data('student');
+                $('#editStudentID').val(student.id);
+                $('#editStudentIDNumber').val(student.student_id_number);
+                $('#editFirstName').val(student.f_name);
+                $('#editLastName').val(student.l_name);
+                $('#editYearLevel').val(student.year_level);
+                $('#editEmail').val(student.email);
+                $('#editPhone').val(student.phone);
+                $('#editStudentModal').modal('show');
+            });
+
+            // Update Student Form Submission
+            $('#editStudentForm').on('submit', function (event) {
                 event.preventDefault();
 
-            const newStudent = {
-                student_id_number: $('#addStudentID').val(),
-                f_name: $('#addFirstName').val(),
-                l_name: $('#addLastName').val(),
-                year_level: $('#addYearLevel').val(),
-                email: $('#addEmail').val(),
-                phone: $('#addPhone').val(),
-                birth_date: $('#addBirthDate').val(),  
-                address: $('#addAddress').val(),       
-                gender: $('#addGender').val(),         
-                guardian_name: $('#addGuardianName').val(),  
-                age: $('#addAge').val()               
-            };
+                const studentId = $('#editStudentID').val();
+                const updatedData = {
+                    f_name: $('#editFirstName').val(),
+                    l_name: $('#editLastName').val(),
+                    year_level: $('#editYearLevel').val(),
+                    email: $('#editEmail').val(),
+                    phone: $('#editPhone').val()
+                };
 
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/create/student',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(newStudent),
+                    url: `http://127.0.0.1:8000/api/update/${studentId}/student`,
+                    method: 'PUT',
+                    contentType: "application/json",
+                    data: JSON.stringify(updatedData),
                     success: function (response) {
                         alert(response.message);
-                        $('#addStudentModal').modal('hide');
-                        $('#addStudentForm')[0].reset();
+                        $('#editStudentModal').modal('hide');
                         loadStudents();
                     },
                     error: function (xhr) {
-                        let errorMsg = "Error adding student.";
+                        let errorMsg = "Error updating student.";
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             errorMsg = xhr.responseJSON.error;
                         }
@@ -227,10 +278,9 @@
                 });
             });
 
-            $(document).on('click', '.btn-delete', function (event) {
-                event.stopPropagation();
+            // Delete Student
+            $(document).on('click', '.btn-delete', function () {
                 const studentId = $(this).data('id');
-
                 if (confirm("Are you sure you want to delete this student?")) {
                     $.ajax({
                         url: `http://localhost:8000/api/delete/${studentId}/student`,
@@ -246,42 +296,46 @@
                 }
             });
 
-            $('#editStudentForm').on('submit', function (event) {
-                event.preventDefault();
-                
-                const studentId = $('#editStudentID').val();
-                const updatedData = {
-                    f_name: $('#editFirstName').val(),
-                    l_name: $('#editLastName').val(),
-                    year_level: $('#editYearLevel').val(),
-                    email: $('#editEmail').val(),
-                    phone: $('#editPhone').val()
+// Handle form submission for adding a new student
+$('#addStudentForm').on('submit', function (event) {
+    event.preventDefault(); // Prevent default form submission
 
-                    
-                };
+    // Collect form data
+    const newStudent = {
+        student_id_number: $('#addStudentID').val(),
+        f_name: $('#addFirstName').val(),
+        l_name: $('#addLastName').val(),
+        year_level: $('#addYearLevel').val(),
+        email: $('#addEmail').val(),
+        phone: $('#addPhone').val(),
+        birth_date: $('#addBirthDate').val(),
+        address: $('#addAddress').val(),
+        gender: $('#addGender').val(),
+        guardian_name: $('#addGuardianName').val(),
+        age: $('#addAge').val()
+    };
 
-                $.ajax({
-                    url: `http://127.0.0.1:8000/api/update/${studentId}/student`,
-                    method: 'PUT',
-                    contentType: "application/json",  // Ensures correct data format
-                    data: JSON.stringify(updatedData), // Convert object to JSON
-                    success: function (response) {
-                        alert(response.message);
-                        $('#editStudentModal').modal('hide');
-                        loadStudents();
-                    },
-                    error: function (xhr) {
-                        console.error("Update Error:", xhr.responseText);
-                        let errorMsg = "Error updating student.";
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        alert(errorMsg);
-                    }
-                });
-            });
-
-
+    // AJAX request to create a student
+    $.ajax({
+        url: 'http://127.0.0.1:8000/api/create/student',  // Update with your API endpoint
+        method: 'POST',
+        contentType: 'application/json',  // Ensures correct data format
+        data: JSON.stringify(newStudent), // Convert object to JSON
+        success: function (response) {
+            alert(response.message); // Show success message
+            $('#addStudentModal').modal('hide'); // Hide modal
+            $('#addStudentForm')[0].reset(); // Reset form fields
+            loadStudents(); // Refresh table data
+        },
+        error: function (xhr) {
+            let errorMsg = "Error adding student.";
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+                errorMsg = xhr.responseJSON.error;
+            }
+            alert(errorMsg);
+        }
+    });
+});
 
         });
     </script>
