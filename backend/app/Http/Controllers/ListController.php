@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class ListController extends Controller {
 
-    public function getEmployees() {
+public function getEmployees() {
         try {
             $employees = Employee::all();
             return response()->json([
@@ -22,7 +22,7 @@ class ListController extends Controller {
         }
     }
 
-    public function getStudents() {
+public function getStudents() {
         try {
             $students = Student::all();
             return response()->json([
@@ -33,9 +33,7 @@ class ListController extends Controller {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-    public function search(Request $request) {
+public function search(Request $request) {
         try {
             $search = $request->input('search');
             $type = $request->input('type'); 
@@ -71,24 +69,16 @@ class ListController extends Controller {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
-
 public function create(Request $request, $type) {
     try {
         Log::info('Create request received', $request->all());
 
-        
         $type = strtolower($type);
-
-        
         if (!in_array($type, ['student', 'employee'])) {
             return response()->json(['error' => 'Invalid type provided.'], 400);
         }
 
         $table = $type === 'student' ? 'students' : 'employees';
-
         $rules = [
             'f_name' => 'required|string',
             'l_name' => 'required|string',
@@ -99,11 +89,13 @@ public function create(Request $request, $type) {
             'gender' => 'required|in:Male,Female',
             'guardian_name' => 'required|string',
             'age' => 'required|integer',
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Made required
+            'uploaded_file' => 'required|file|mimes:doc,pdf,docx|max:2048', // Made required
         ];
 
         if ($type === 'student') {
             $rules['year_level'] = 'required|integer';
-            $rules['age']  = 'required|integer';
+            $rules['age'] = 'required|integer';
             $rules['student_id_number'] = 'required|string|unique:students,student_id_number';
         }
 
@@ -111,10 +103,21 @@ public function create(Request $request, $type) {
             $rules['employee_id_number'] = 'required|string|unique:employees,employee_id_number';
         }
 
-        
+        // Validate the request data
         $validatedData = $request->validate($rules);
 
-        
+        // Handle file uploads
+        // Profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $validatedData['profile_picture'] = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
+
+        // Uploaded file handling
+        if ($request->hasFile('uploaded_file')) {
+            $validatedData['uploaded_file'] = $request->file('uploaded_file')->store('uploaded_files', 'public');
+        }
+
+        // Create the record
         $record = $type === 'student' ? Student::create($validatedData) : Employee::create($validatedData);
 
         return response()->json([
@@ -126,12 +129,7 @@ public function create(Request $request, $type) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
-
-
-
-
-
-    public function show($id, $type) {
+public function show($id, $type) {
         try {
             $model = ($type === 'student') ? Student::find($id) : Employee::find($id);
 
@@ -148,7 +146,6 @@ public function create(Request $request, $type) {
 public function update(Request $request, $id, $type) {
     try {
         Log::info("Updating {$type} with ID: {$id}");
-
         $table = $type === 'student' ? 'students' : 'employees';
         $model = $type === 'student' ? Student::find($id) : Employee::find($id);
 
@@ -159,7 +156,7 @@ public function update(Request $request, $id, $type) {
 
         Log::info('Model found:', ['model' => $model]);
 
-        // Allow fields to be optional during update
+        // Validate data for updating
         $validatedData = $request->validate([
             'f_name' => 'sometimes|required|string',
             'l_name' => 'sometimes|required|string',
@@ -171,11 +168,20 @@ public function update(Request $request, $id, $type) {
             'address' => 'sometimes|string',
             'gender' => 'sometimes|in:Male,Female',
             'guardian_name' => 'sometimes|string',
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Made required
+            'uploaded_file' => 'required|file|mimes:doc,pdf,docx|max:2048', // Made required
         ]);
 
-        Log::info('Validated data:', ['data' => $validatedData]);
+        // Handle file uploads if provided
+        if ($request->hasFile('profile_picture')) {
+            $validatedData['profile_picture'] = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
 
-        // Update only the fields sent by the user
+        if ($request->hasFile('uploaded_file')) {
+            $validatedData['uploaded_file'] = $request->file('uploaded_file')->store('uploaded_files', 'public');
+        }
+
+        // Update the model with the validated data
         $model->update($validatedData);
 
         return response()->json([
@@ -187,10 +193,7 @@ public function update(Request $request, $id, $type) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
-
-
-
-    public function delete($id, $type) {
+public function delete($id, $type) {
         try {
             $model = ($type === 'student') ? Student::find($id) : Employee::find($id);
 

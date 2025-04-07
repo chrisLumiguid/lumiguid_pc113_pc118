@@ -22,6 +22,8 @@ class Employee extends Model
         'address', 
         'gender', 
         'guardian_name', 
-        'age'
+        'age',
+        'uploaded_file',
+        'profile_picture' 
     ];
 }

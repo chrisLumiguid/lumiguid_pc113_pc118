@@ -1,89 +1,137 @@
+/* Sidebar Style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
 .sidebar {
-    height: 100vh;
     width: 250px;
+    background-color: #111;
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    background: linear-gradient(180deg, #2c3e50, #34495e); /* Gradient for a modern look */
-    color: #ecf0f1; /* Light text color */
-    display: flex;
-    flex-direction: column;
+    color: #fff;
     padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Stronger shadow for depth */
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease;
 }
 
-.sidebar-header {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #ecf0f1; /* Light text color */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Subtle divider */
-    padding-bottom: 10px;
-    text-transform: uppercase; /* Professional uppercase text */
-    letter-spacing: 1px;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-grow: 1;
-}
-
-.sidebar-menu li {
-    margin: 10px 0;
-}
-
-.sidebar-menu li a {
+.sidebar .logo-name {
     display: flex;
     align-items: center;
-    text-decoration: none;
-    color: #bdc3c7; /* Muted text color */
-    padding: 12px 20px;
-    border-radius: 8px; /* Rounded corners for a modern look */
-    font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 40px;
+    padding-left: 20px;
 }
 
-.sidebar-menu li a i {
-    margin-right: 15px;
-    font-size: 1.4rem; /* Slightly larger icons */
-    color: #ecf0f1; /* Icon color matches text */
+.sidebar .logo-image img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }
 
-.sidebar-menu li a:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
-    color: #ffffff; /* Bright text on hover */
-    transform: translateX(5px); /* Slight movement for interactivity */
+.sidebar .logo_name {
+    font-size: 22px;
+    font-weight: 600;
 }
 
-.sidebar-menu li a .badge {
-    margin-left: auto;
-    background-color: #e74c3c; /* Professional red for badges */
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
+.sidebar .menu-items {
+    padding-left: 0;
 }
 
-.menu-divider {
-    margin: 20px 0 10px;
-    padding: 0 20px;
-    font-size: 0.9rem;
-    color: #95a5a6; /* Muted gray for dividers */
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider line */
-    padding-top: 10px;
+.sidebar .nav-links {
+    list-style-type: none;
 }
 
-.sidebar-footer {
-    text-align: center;
+.sidebar .nav-links li {
+    display: flex;
+    align-items: center;
     padding: 15px 20px;
-    font-size: 0.9rem;
-    color: #95a5a6; /* Muted footer text */
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Footer divider */
+    margin-bottom: 10px;
+}
+
+.sidebar .nav-links li a {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar .nav-links li a i {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
+.sidebar .nav-links li a .link-name {
+    font-size: 18px;
+}
+
+.sidebar .logout-mode {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    left: 0;
+}
+
+.sidebar .logout-mode li {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.sidebar .mode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar .mode .switch {
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 30px;
+    position: relative;
+}
+
+.sidebar .mode .switch::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+body.dark .sidebar {
+    background-color: #333;
+}
+
+body.dark .sidebar .logo_name {
+    color: #fff;
+}
+
+body.dark .sidebar .nav-links li a {
+    color: #ddd;
+}
+
+body.dark .sidebar .nav-links li a:hover {
+    background-color: #444;
+}
+
+body.dark .sidebar .mode .switch {
+    background-color: #0e4bf1;
+}
+
+body.dark .sidebar .mode .switch::before {
+    transform: translateX(20px);
 }

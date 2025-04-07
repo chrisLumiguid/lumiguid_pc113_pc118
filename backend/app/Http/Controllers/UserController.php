@@ -3,17 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth; 
-use Illuminate\Routing\Controller;
 use App\Models\User;
-
-
+use Illuminate\Routing\Controller;
 class UserController extends Controller
 {
-    // Create User
+    // Create User (Registration)
     public function create(Request $request)
     {
         try {
+            // Validate the incoming request
             $data = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
@@ -21,7 +19,10 @@ class UserController extends Controller
                 'role' => 'required|in:admin,user',
             ]);
 
+            // Hash the password
             $data['password'] = Hash::make($data['password']);
+
+            // Create a new user
             $user = User::create($data);
 
             return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
@@ -37,7 +38,6 @@ class UserController extends Controller
             $credentials = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|string',
-                // 'device_name' => 'required|string',
             ]);
 
             $user = User::where('email', $credentials['email'])->first();
@@ -46,69 +46,16 @@ class UserController extends Controller
                 return response()->json(['message' => 'Invalid email or password'], 401);
             }
 
-            // **Delete previous tokens to ensure only one active token per user**
-            $user->tokens()->delete();
-
+            // Create authentication token
             $token = $user->createToken('auth_token')->plainTextToken;
-            $tokenParts = explode('|', $token);
-            $tokenOnly = $tokenParts[1] ?? $token;
 
             return response()->json([
                 'message' => 'Login successful',
-                'token' => $tokenOnly,
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $user->role,
-                ],
+                'token' => $token,
+                'user' => $user,
             ]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Something went wrong during login', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Login failed', 'error' => $e->getMessage()], 500);
         }
     }
-
-
-
-    // Get Authenticated User Profile
-    public function profile()
-    {
-        try {
-            $user = Auth::user();
-
-            if (!$user) {
-                return response()->json(['message' => 'User not authenticated'], 401);
-            }
-
-            return response()->json($user);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to fetch user profile', 'error' => $e->getMessage()], 500);
-        }
-    }
-
-    // User Logout
-    // public function logout(Request $request)
-    // {
-    //     try {
-    //         $request->user()->tokens()->delete();
-
-    //         return response()->json(['message' => 'Logged out successfully']);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
-    //     }
-    // }
-    public function logout(Request $request)
-{
-    try {
-        if (Auth::guard('sanctum')->check()) {
-            $request->user()->tokens()->delete();
-            return response()->json(['message' => 'Logged out successfully']);
-        }
-        return response()->json(['message' => 'Unauthorized'], 401);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
-    }
-}
-
-
 }

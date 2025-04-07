@@ -52,9 +52,8 @@
     </style>
 </head>
 <body>
-    <!-- Include Sidebar -->
-    <?php include 'sidebar.php'; ?>
-
+    <?php include('sidebar.php'); ?>
+   
     <div class="content">
         <div class="container-fluid">
             <div class="text-center my-4">
@@ -191,12 +190,16 @@
             </div>
         </div>
     </div>
-
+ 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="js/students/add_student.js"></script>
+    <script src="js/students/delete_student.js"></script>
+    <script src="js/students/edit_student.js"></script>
+    <script src="js/students/load_student.js"></script>
     <script>
         $(document).ready(function () {
             const table = $('#studentsTable').DataTable({ responsive: true, pageLength: 10 });
@@ -338,6 +341,14 @@ $('#addStudentForm').on('submit', function (event) {
 });
 
         });
+
+
+
+        
+
+
+
+
     </script>
 </body>
 </html>

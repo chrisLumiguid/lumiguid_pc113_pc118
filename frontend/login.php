@@ -39,7 +39,7 @@
             .then(({ status, body }) => {
                 if (status === 200) {
                     alert("Login successful!");
-                    window.location.href = "dashboard.php";
+                    window.location.href = "index.php";
                 } else {
                     error.textContent = body.message || "Invalid email or password";
                 }

@@ -22,7 +22,9 @@ class Student extends Model
         'gender', 
         'guardian_name', 
         'year_level', 
-        'age' 
+        'age',
+        'uploaded_file',
+        'profile_picture' 
 
     ];
 }
