@@ -5,10 +5,11 @@
     <link rel="stylesheet" href="dashboard.css">
     <title>Document</title>
 </head>
+
 <body>
   <div class="sidebar">
     <div class="logo-details">
-      <i class='bx bxl-c-plus-plus'></i>
+      <!-- <i class='bx bxl-c-plus-plus'></i> -->
       <span class="logo_name">TinangLab</span>
     </div>
       <ul class="nav-links">

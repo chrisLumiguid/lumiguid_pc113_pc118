@@ -208,4 +208,44 @@ public function delete($id, $type) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function store(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'addFile' => 'nullable|mimes:pdf,docx,zip|max:2048',
+    ]);
+
+    // Handle the profile picture upload
+    $profilePicture = $request->file('profile_picture');
+    $profilePicturePath = $profilePicture ? $profilePicture->store('profile_pictures', 'public') : null;
+
+    // Handle other fields
+    $employee = new Employee([
+        'employee_id' => $request->employee_id,
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
+        'profile_picture' => $profilePicturePath,  // Save the file path
+    ]);
+
+    // Handle the file upload if exists
+    if ($request->hasFile('addFile')) {
+        $file = $request->file('addFile');
+        $filePath = $file->store('employee_files', 'public');
+        $employee->file = $filePath;
+    }
+
+    $employee->save();
+
+    return response()->json([
+        'message' => 'Employee added successfully!',
+    ]);
+}
+
+
+
 }

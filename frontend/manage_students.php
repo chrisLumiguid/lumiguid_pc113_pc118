@@ -72,10 +72,12 @@
                         <tr>
                             <th>#</th>
                             <th>Student ID</th>
+                            <th>Profile Picture</th>
                             <th>Name</th>
                             <th>Year Level</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>File</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

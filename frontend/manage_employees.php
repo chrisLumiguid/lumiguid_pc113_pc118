@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Sidebar CSS -->
     <link rel="stylesheet" href="sidebar.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <style>
         body {
             display: flex;
@@ -111,11 +111,23 @@
             overflow-y: auto;
         }
 
+        .navbar{
+            display:flex;
+            
+        }
+
     </style>
 </head>
 
 <body>
-    <?php include('sidebar.php'); ?>
+    <div class="main">
+        <div class="navbar">
+            <?php include 'navbar.php'; ?>
+        </div>
+        <div class="sidebar">
+            <?php include 'sidebar.php'; ?> 
+        </div>
+    </div>
         <div class="content">
             <div class="container-fluid">
                 <div class="text-center my-4">
@@ -191,7 +203,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">File</label>
-                                <input type="file" class="dropify" id="addFile" name="addFile">
+                                <input type="file"  id="addFile" name="addFile">
                             </div>
                             <button type="submit" class="btn btn-custom">Add Employee</button>
                         </form>
@@ -239,6 +251,10 @@
                                 <label class="form-label">Address</label>
                                 <input type="text" class="form-control" id="editAddress" required>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">File</label>
+                                <input type="file"  id="addFile" name="addFile">
+                            </div>
                             <button type="submit" class="btn btn-custom">Update Employee</button>
                         </form>
                     </div>
@@ -252,12 +268,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="js/employees/add_employee.js"></script>
     <script src="js/employees/delete_employee.js"></script>
     <script src="js/employees/edit_employee.js"></script>
     <script src="js/employees/load_employee.js"></script>
 </body>
-
 </html>
 
 

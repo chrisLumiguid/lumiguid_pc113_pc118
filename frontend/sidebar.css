@@ -1,137 +1,18 @@
-/* Sidebar Style */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
 .sidebar {
     width: 250px;
-    background-color: #111;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
+    background-color: #111;
     color: #fff;
     padding: 20px 0;
-    transition: all 0.3s ease;
-}
-
-.sidebar .logo-name {
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-    padding-left: 20px;
-}
-
-.sidebar .logo-image img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-
-.sidebar .logo_name {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.sidebar .menu-items {
-    padding-left: 0;
-}
-
-.sidebar .nav-links {
-    list-style-type: none;
-}
-
-.sidebar .nav-links li {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-}
-
-.sidebar .nav-links li a {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    text-decoration: none;
-}
-
-.sidebar .nav-links li a i {
-    font-size: 22px;
-    margin-right: 15px;
-}
-
-.sidebar .nav-links li a .link-name {
-    font-size: 18px;
-}
-
-.sidebar .logout-mode {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    left: 0;
-}
-
-.sidebar .logout-mode li {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-.sidebar .mode {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.sidebar .mode .switch {
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 30px;
-    position: relative;
-}
-
-.sidebar .mode .switch::before {
-    content: '';
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    width: 16px;
-    height: 16px;
-    background-color: #fff;
-    border-radius: 50%;
-    transition: all 0.3s;
-}
-
-body.dark .sidebar {
-    background-color: #333;
-}
-
-body.dark .sidebar .logo_name {
-    color: #fff;
-}
-
-body.dark .sidebar .nav-links li a {
-    color: #ddd;
-}
-
-body.dark .sidebar .nav-links li a:hover {
-    background-color: #444;
-}
-
-body.dark .sidebar .mode .switch {
-    background-color: #0e4bf1;
-}
-
-body.dark .sidebar .mode .switch::before {
-    transform: translateX(20px);
+    overflow-y: auto;
+    z-index: 1000;
+} */
+/* .main-content {
+    margin-left: 250px; 
+    padding: 20px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
 }
