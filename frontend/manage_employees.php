@@ -120,15 +120,15 @@
 </head>
 
 <body>
-    <div class="main">
-        <div class="navbar">
-            <?php include 'navbar.php'; ?>
-        </div>
-        <div class="sidebar">
-            <?php include 'sidebar.php'; ?> 
-        </div>
-    </div>
+    <!-- <div class="main"> -->
+        <!-- <div class="navbar"> -->
+            <!-- </div> -->
+            <!-- <div class="sidebar"> -->
+                <?php include 'sidebar.php'; ?> 
+            <!-- </div> -->
+        <!-- </div> -->
         <div class="content">
+            <?php include 'navbar.php'; ?>
             <div class="container-fluid">
                 <div class="text-center my-4">
                     <h1 class="display-4 text-dark">Manage Employees</h1>
@@ -273,6 +273,17 @@
     <script src="js/employees/delete_employee.js"></script>
     <script src="js/employees/edit_employee.js"></script>
     <script src="js/employees/load_employee.js"></script>
+    <script>
+    let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".sidebarBtn");
+      sidebarBtn.onclick = function() {
+        sidebar.classList.toggle("active");
+        if(sidebar.classList.contains("active")){
+        sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+      }else
+        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    </script>
 </body>
 </html>
 

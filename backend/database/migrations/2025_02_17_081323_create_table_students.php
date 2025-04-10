@@ -24,7 +24,7 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female']);
             $table->string('guardian_name');
             $table->integer('year_level'); 
-            $table->string('profile_picture'); // For profile picture
+            $table->string('profile_picture'); 
             $table->string('uploaded_file'); 
             $table->timestamps();
         });

@@ -25,7 +25,7 @@
             margin-left: 250px;
             padding: 20px;
             flex-grow: 1;
-            background-color: #f9f9f9;
+            /* background-color: #f9f9f9; */
         }
         .dataTables_wrapper {
             margin-top: 20px;
@@ -55,6 +55,7 @@
     <?php include('sidebar.php'); ?>
    
     <div class="content">
+        <?php include('navbar.php') ?>
         <div class="container-fluid">
             <div class="text-center my-4">
                 <h1 class="display-4 text-dark">Manage Students</h1>
@@ -345,7 +346,15 @@ $('#addStudentForm').on('submit', function (event) {
         });
 
 
-
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".sidebarBtn");
+      sidebarBtn.onclick = function() {
+        sidebar.classList.toggle("active");
+        if(sidebar.classList.contains("active")){
+        sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+      }else
+        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
         
 
 
