@@ -10,10 +10,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/create-user', [UserController::class, 'create']); // This will register a new user
 
-Route::post('/login', [UserController::class, 'login']); // This is for logging in an existing user
+Route::post('/update-profile', [UserController::class, 'updateProfile']);
 
+
+Route::post('/register', [UserController::class, 'register']); 
+
+Route::post('/login', [UserController::class, 'login']); 
 
 Route::get('/profile', [UserController::class, 'profile'])->middleware('auth:sanctum');
 

@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  class="layout-menu-fixed layout-compact"
-  data-assets-path="../assets/"
-  data-template="vertical-menu-template-free">
+<html lang="en" class="layout-menu-fixed layout-compact" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,19 +47,6 @@
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
         <div class="col-md-12 account-settings-wrapper">
-          <div class="nav-align-top">
-            <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-md-0 gap-2">
-              <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="bx bx-user me-2"></i> Account</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bx bx-bell me-2"></i> Notifications</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bx bx-link-alt me-2"></i> Connections</a>
-              </li>
-            </ul>
-          </div>
 
           <div class="card mb-6">
             <div class="card-body">
@@ -85,6 +68,7 @@
             </div>
 
             <div class="card-body pt-4">
+
               <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                 <div class="row g-4">
                   <div class="col-md-6">
@@ -100,15 +84,8 @@
                     <input class="form-control" type="email" id="email" name="email" value="john.doe@example.com" />
                   </div>
                   <div class="col-md-6">
-                    <label for="organization" class="form-label">Organization</label>
-                    <input class="form-control" type="text" id="organization" name="organization" value="TinangLab" />
-                  </div>
-                  <div class="col-md-6">
                     <label for="fileUpload" class="form-label">Upload Resume or File</label>
-                    <input type="file" id="fileUpload" name="resume" class="dropify"
-                      data-allowed-file-extensions="jpg png jpeg pdf docx"
-                      data-max-file-size="2M"
-                      data-height="120" />
+                    <input type="file" id="fileUpload" name="resume" class="dropify" data-allowed-file-extensions="jpg png jpeg pdf docx" data-max-file-size="2M" data-height="120" />
                   </div>
                 </div>
 
@@ -117,6 +94,7 @@
                   <button type="reset" class="btn btn-outline-secondary">Cancel</button>
                 </div>
               </form>
+              
             </div>
           </div>
 
@@ -149,37 +127,55 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    $(document).ready(function () {
-      // Initialize Dropify
-      $('.dropify').dropify();
+  $(document).ready(function () {
+    // Initialize Dropify for resume field
+    $('.dropify').dropify();
 
-      // SweetAlert for file selection
-      $('#fileUpload').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-          Swal.fire({
-            icon: 'success',
-            title: 'File Selected!',
-            text: `You selected "${file.name}"`,
-            timer: 1800,
-            showConfirmButton: false
-          });
-        }
-      });
+    // Handle image preview on selecting avatar image
+    $('#upload').on('change', function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          $('#uploadedAvatar').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
 
-      // Reset avatar
-      $('#resetImage').on('click', function () {
-        $('#upload').val('');
-        $('#uploadedAvatar').attr('src', '../assets/img/avatars/1.png');
-      });
+        Swal.fire({
+          icon: 'success',
+          title: 'Photo selected!',
+          text: file.name,
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
     });
 
-    // Handle form submit
+    // Reset avatar to default
+    $('#resetImage').on('click', function () {
+      $('#upload').val('');
+      $('#uploadedAvatar').attr('src', '../assets/img/avatars/1.png');
+    });
+
+    // Show alert for resume/file selection
+    $('#fileUpload').on('change', function () {
+      const file = this.files[0];
+      if (file) {
+        Swal.fire({
+          icon: 'success',
+          title: 'File Selected!',
+          text: `You selected "${file.name}"`,
+          timer: 1800,
+          showConfirmButton: false
+        });
+      }
+    });
+
+    // Handle profile form submission
     $('#formAccountSettings').on('submit', function (e) {
       e.preventDefault();
 
       const formData = new FormData(this);
-
       const profilePic = $('#upload')[0].files[0];
       if (profilePic) {
         formData.append('profile_picture', profilePic);
@@ -215,6 +211,10 @@
         }
       });
     });
+  });
+
+
+
   </script>
 </body>
 </html>
