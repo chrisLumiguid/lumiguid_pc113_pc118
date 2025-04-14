@@ -23,8 +23,6 @@ return new class extends Migration
             $table->text('address');
             $table->enum('gender', ['Male', 'Female']);
             $table->string('guardian_name');
-            $table->string('profile_picture'); // For profile picture
-            $table->string('uploaded_file'); 
             $table->timestamps();
         });
     }

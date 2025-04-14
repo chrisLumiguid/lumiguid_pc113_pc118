@@ -5,21 +5,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\UserController;
 
-// Route to get authenticated user details
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Route for user registration (create user)
 Route::post('/create-user', [UserController::class, 'create']); // This will register a new user
 
-// Route for user login
 Route::post('/login', [UserController::class, 'login']); // This is for logging in an existing user
 
-// Route to get user profile (authenticated users only)
+
 Route::get('/profile', [UserController::class, 'profile'])->middleware('auth:sanctum');
 
-// Routes related to the ListController (students, employees, etc.)
+
 Route::post('/create/{type}', [ListController::class, 'create']);
 Route::get('/students', [ListController::class, 'getStudents']);
 Route::get('/employees', [ListController::class, 'getEmployees']);
