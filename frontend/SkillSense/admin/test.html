@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CreativeHub – Discover Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+      background: #fff;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-link {
+      color: #333 !important;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+
+    .search-box {
+      max-width: 600px;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    .search-box input {
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: 1px solid #ddd;
+      width: 100%;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .tags {
+      margin-top: 10px;
+    }
+
+    .tags span {
+      margin: 5px;
+      font-size: 13px;
+      background: #eee;
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .tags span:hover {
+      background: #ddd;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 30px 0;
+      gap: 12px;
+    }
+
+    .filter-tabs .tab {
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: #f1f1f1;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-tabs .tab:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      padding: 0 2rem;
+    }
+
+    .card.project {
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      background: #fff;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card.project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .project-img {
+      height: 180px;
+      object-fit: cover;
+      width: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .card.project:hover .project-img {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .project-footer i {
+      margin-right: 4px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 8px;
+    }
+
+    .creator {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .signin-cta {
+      background: linear-gradient(135deg, #f8f9fa, #ffffff);
+      border: 1px solid #ddd;
+      border-radius: 24px;
+      text-align: center;
+      padding: 40px 20px;
+      margin: 60px auto 20px;
+      max-width: 700px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .signin-cta h3 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .signin-cta p {
+      margin: 10px 0 20px;
+      color: #666;
+    }
+
+    .signin-cta .btn-dark {
+      padding: 10px 24px;
+      font-size: 16px;
+      border-radius: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">CreativeHub</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Hire Designers</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+          <li class="nav-item"><a class="btn btn-dark btn-sm ms-2" href="#">Sign In</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Discover the world’s top designers</h1>
+    <p class="text-muted">Explore portfolios from the most talented and creative minds.</p>
+    <div class="search-box">
+      <input type="text" placeholder="What are you looking for?" />
+      <i class="bi bi-search"></i>
+    </div>
+    <div class="tags">
+      <span>#landing page</span>
+      <span>#mobile app</span>
+      <span>#UI/UX</span>
+      <span>#illustration</span>
+      <span>#dashboard</span>
+    </div>
+  </section>
+
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <div class="tab">Discover</div>
+    <div class="tab">Animation</div>
+    <div class="tab">Branding</div>
+    <div class="tab">Illustration</div>
+    <div class="tab">Mobile</div>
+    <div class="tab">Print</div>
+    <div class="tab">Typography</div>
+    <div class="tab">Web Design</div>
+  </div>
+
+  <!-- Project Grid -->
+  <div class="project-grid container pb-5">
+    <!-- Template for Cards (repeat as needed) -->
+    <!-- You can dynamically generate these via JS/Laravel -->
+    <!-- Repeated sample cards below -->
+    ${[1,2,3,4,5,6].map(i => `
+    <div class="card project">
+      <img src="https://picsum.photos/400/250?random=${i}" class="project-img" alt="Project Image">
+      <div class="card-body">
+        <div class="creator">
+          <img src="https://i.pravatar.cc/40?img=${i}" class="avatar" alt="Avatar">
+          <span>Designer ${i}</span>
+        </div>
+        <div class="project-footer mt-2">
+          <span><i class="bi bi-eye"></i> ${(i * 1.3).toFixed(1)}k</span>
+          <span><i class="bi bi-heart-fill text-danger"></i> ${Math.floor(i * 48)}</span>
+        </div>
+      </div>
+    </div>
+    `).join('')}
+  </div>
+
+  <!-- Sign In CTA Section -->
+  <div class="signin-cta container">
+    <h3>Sign in to continue</h3>
+    <p>Join CreativeHub and start showcasing your design work, following creators, and building your dream portfolio.</p>
+    <a href="#" class="btn btn-dark"><i class="bi bi-person-circle me-2"></i>Sign In</a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; 2025 CreativeHub – Inspired by Dribbble. Built with ❤️ using HTML, CSS, and Bootstrap.
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

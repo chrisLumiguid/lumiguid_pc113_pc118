@@ -1,0 +1,237 @@
+:root {
+    --purple: #8789f0;
+    --blue: #696cff;
+    --light-grey: #f9f9f9;
+}
+
+body {
+    background-color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    padding-top: 80px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: transparent;
+}
+
+.navbar.scrolled {
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: var(--blue);
+}
+
+.nav-link {
+    color: #333 !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--blue) !important;
+}
+
+.btn-signin {
+    background-color: var(--blue);
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn-signin:hover {
+    background-color: var(--purple);
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 20px 40px;
+}
+
+.hero h1 {
+    font-weight: 700;
+    font-size: 2.7rem;
+    color: #222;
+}
+
+.hero p {
+    color: #777;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.search-box input {
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    width: 100%;
+    outline: none;
+    background-color: #f1f1f1;
+}
+
+.search-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.tags {
+    margin-top: 10px;
+}
+
+.tags span {
+    margin: 5px;
+    font-size: 13px;
+    background: #eee;
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tags span:hover {
+    background: #ddd;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+    gap: 12px;
+}
+
+.filter-tabs .tab {
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-tabs .tab:hover {
+    background: var(--purple);
+    color: #fff;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 260 originally */
+    gap: 10px; /* orginally 24 */
+    padding: 0 2rem;
+}
+
+.card.project {
+    position: relative;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    background: #fff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.card.project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.project-img {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.card.project:hover .project-img {
+    transform: scale(1.05);
+}
+
+.hover-info {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(105, 108, 255, 0.8), rgba(135, 137, 240, 0.2));
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card.project:hover .hover-info {
+    opacity: 1;
+}
+
+.hover-info .designer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.hover-info .designer img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.hover-info .details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.signin-cta {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    text-align: center;
+    padding: 40px 20px;
+    margin: 60px auto 20px;
+    max-width: 700px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.signin-cta h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.signin-cta p {
+    margin: 10px 0 20px;
+    color: #666;
+}
+
+.signin-cta .btn-dark {
+    background-color: var(--blue);
+    border: none;
+}
+
+.footer {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    padding: 40px 20px;
+    margin-top: 60px;
+}
