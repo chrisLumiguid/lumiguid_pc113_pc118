@@ -29,7 +29,7 @@ id="layout-navbar">
     <li class="nav-item lh-1 me-4">
         <a
         class="github-button"
-        href="https://github.com/themeselection/sneat-bootstrap-html-admin-template-free"
+        href="#"
         data-icon="octicon-star"
         data-size="large"
         data-show-count="true"

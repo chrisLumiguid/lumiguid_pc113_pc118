@@ -115,10 +115,10 @@ function isActive($routes) {
     </li>
 
     <!-- User Management -->
-    <li class="menu-item <?= isActive(['users.php', 'add_user.php', 'edit_user.php']) ?>">
+    <li class="menu-item <?= isActive(['users/all_users.php', 'users/admins.php', 'users/portfolio_owners.php', 'users/employers.php']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-user"></i>
-        <div class="text-truncate" data-i18n="Front Pages">Users</div>
+        <div class="text-truncate" data-i18n="User Management">Users</div>
         </a>
         <ul class="menu-sub">
         <li class="menu-item <?= isActive('users/all_users.php') ?>">
@@ -130,28 +130,20 @@ function isActive($routes) {
             
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item <?= isActive('users/portfolio_owners.php') ?>">
             <a
-            href="#"
+            href="all/portfolio_owners.php"
             class="menu-link"
             target="_blank">
-            <div class="text-truncate" data-i18n="Add New User">Add New User</div>
+            <div class="text-truncate" data-i18n="Portfolio Owner">Portfolio Owner</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item <?= isActive('users/employers.php') ?>">
             <a
-            href="#"
+            href="users/employers.php"
             class="menu-link"
             target="_blank">
-            <div class="text-truncate" data-i18n="Edit Users">Edit Users</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Delete Users">Delete Users</div>
+            <div class="text-truncate" data-i18n="Employers">Employers</div>
             </a>
         </li>
         </ul>
