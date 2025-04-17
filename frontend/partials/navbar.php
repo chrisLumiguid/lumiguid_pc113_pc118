@@ -1,4 +1,4 @@
-<?php include "assets/js/navbar.js" ?>
+
 
 <style>
   .profile-image {
@@ -30,7 +30,6 @@
   </div>
   <div class="profile-details">
     <div class="profile-image">
-      <!-- Image or initials will go here dynamically -->
     </div>
     <span class="admin_name" id="adminName">Tina Pai</span>
     <i class='bx bx-chevron-down'></i>

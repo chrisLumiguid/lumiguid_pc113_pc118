@@ -1,10 +1,22 @@
+<?php include 'admin_partials/header.php';?>
+
+<?php
+function isActive($routes) {
+    $current = basename($_SERVER['PHP_SELF']);
+    if (is_array($routes)) {
+        return in_array($current, $routes) ? 'active open' : '';
+    }
+    return $current === $routes ? 'active' : '';
+}
+?>
+
 <!-- partials/sidebar.php -->
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
     <a href="index.html" class="app-brand-link">
         <span class="app-brand-logo demo">
         <span class="text-primary">
-            <svg
+        <svg
             width="25"
             viewBox="0 0 25 42"
             version="1.1"
@@ -50,12 +62,12 @@
                 </g>
                 </g>
             </g>
-            </svg>
+        </svg>
         </span>
         </span>
-        <span class="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+        <span class="app-brand-text demo menu-text fw-bold ms-2">SkillSense</span>
     </a>
-
+  <?php $currentPage = basename($_SERVER['PHP_SELF']); ?>
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
         <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
     </a>
@@ -67,481 +79,335 @@
 
     <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active open">
+    <li class="menu-item <?= isActive(['admin_index.php']) ?>"> <!---active open--->
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-smile"></i>
         <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
-        <span class="badge rounded-pill bg-danger ms-auto">5</span>
         </a>
         <ul class="menu-sub">
         <li class="menu-item active">
             <a href="index.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Analytics">Analytics</div>
+            <div class="text-truncate" data-i18n="Analytics">Overview</div>
             </a>
         </li>
         <li class="menu-item">
             <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
+            href="#"
             target="_blank"
             class="menu-link">
-            <div class="text-truncate" data-i18n="CRM">CRM</div>
-            <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
+            <div class="text-truncate" data-i18n="eCommerce">Logs</div>
             </a>
         </li>
         <li class="menu-item">
             <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html"
+            href="#"
             target="_blank"
             class="menu-link">
-            <div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
-            <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
-            target="_blank"
-            class="menu-link">
-            <div class="text-truncate" data-i18n="Logistics">Logistics</div>
-            <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-academy-dashboard.html"
-            target="_blank"
-            class="menu-link">
-            <div class="text-truncate" data-i18n="Academy">Academy</div>
-            <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
+            <div class="text-truncate" data-i18n="Logistics">Views</div>
             </a>
         </li>
         </ul>
     </li>
 
-    <!-- Layouts -->
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-layout"></i>
-        <div class="text-truncate" data-i18n="Layouts">Layouts</div>
-        </a>
-
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="layouts-without-menu.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Without menu">Without menu</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="layouts-without-navbar.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Without navbar">Without navbar</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="layouts-fluid.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Fluid">Fluid</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="layouts-container.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Container">Container</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="layouts-blank.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Blank">Blank</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-
-    <!-- Front Pages -->
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
-        <div class="text-truncate" data-i18n="Front Pages">Front Pages</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/front-pages/landing-page.html"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Landing">Landing</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/front-pages/pricing-page.html"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Pricing">Pricing</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/front-pages/payment-page.html"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Payment">Payment</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/front-pages/checkout-page.html"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Checkout">Checkout</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/front-pages/help-center-landing.html"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Help Center">Help Center</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-
-    <!-- Apps & Pages -->
+    <!-- HEADER: Management -->
     <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Apps &amp; Pages</span>
+        <span class="menu-header-text">Management</span>
     </li>
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-envelope"></i>
-        <div class="text-truncate" data-i18n="Email">Email</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
+
+    <!-- User Management -->
+    <li class="menu-item <?= isActive(['users.php', 'add_user.php', 'edit_user.php']) ?>">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div class="text-truncate" data-i18n="Front Pages">Users</div>
         </a>
+        <ul class="menu-sub">
+        <li class="menu-item <?= isActive('users/all_users.php') ?>">
+            <a
+            href="users/all_users.php"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="All Users">All Users</div>
+            
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Add New User">Add New User</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Edit Users">Edit Users</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Delete Users">Delete Users</div>
+            </a>
+        </li>
+        </ul>
     </li>
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-chat.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-chat"></i>
-        <div class="text-truncate" data-i18n="Chat">Chat</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-calendar"></i>
-        <div class="text-truncate" data-i18n="Calendar">Calendar</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-kanban.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-grid"></i>
-        <div class="text-truncate" data-i18n="Kanban">Kanban</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-    </li>
-    <!-- Pages -->
+
+    <!-- Portfolio Management -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-dock-top"></i>
-        <div class="text-truncate" data-i18n="Account Settings">Account Settings</div>
+        <i class="menu-icon tf-icons bx bx-briefcase"></i>
+        <div class="text-truncate" data-i18n="Portfolios">Portfolios</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="All Portfolios">All Portfolios</div>
+            <!-- Apil na filter by role -->
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Pending">Pending</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Reports">Reports</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Print/Export Portfolios">Print / Export Portfolios</div>
+            </a>
+        </li>
+        </ul>
+    </li>
+
+    <!-- Project Management -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-folder"></i>
+        <div class="text-truncate" data-i18n="Projects">Projects</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="All">All</div>
+            <!-- Apil na filter by role -->
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Featured">Featured</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Upload Projects">Upload Projects</div>
+            </a>
+        </li>
+        </ul>
+    </li>
+
+    <!-- Testimonials-->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-comment-detail"></i>
+        <div class="text-truncate" data-i18n="Testimonials">Testimonials</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="All">All</div>
+            <!-- Apil na filter by role -->
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Pending">Pending</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a
+            href="#"
+            class="menu-link"
+            target="_blank">
+            <div class="text-truncate" data-i18n="Email Logs">Email Logs</div>
+            <!-- Cron job -->
+            </a>
+        </li>
+        </ul>
+    </li>
+
+    <!-- Activity Logs -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-clipboard"></i>
+        <div class="text-truncate" data-i18n="Account Settings">Logs</div>
         </a>
         <ul class="menu-sub">
         <li class="menu-item">
             <a href="pages-account-settings-account.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Account">Account</div>
+            <div class="text-truncate" data-i18n="Account">Login</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="pages-account-settings-notifications.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Notifications">Notifications</div>
+            <div class="text-truncate" data-i18n="Notifications">Action</div>
+            </a>
+        </li>
+        </ul>
+    </li>
+
+    <!-- HEADER: Integrations And Communication  -->
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Integrations</span>
+    </li>
+
+    <!-- TalentConnect Integration-->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-link"></i>
+        <div class="text-truncate" data-i18n="Account Settings">TalentConnect</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Job Invites</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Notifications">Job Matches</div>
+            </a>
+        </li>
+            <li class="menu-item">
+            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Notifications">Sync Logs</div>
+            </a>
+        </li>
+        </ul>
+    </li>
+
+    <!-- Communication Center -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-chat"></i>
+        <div class="text-truncate" data-i18n="Account Settings">Comm Center</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Email Log</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Notifications">SMS Log</div>
+            </a>
+        </ul>
+    </li>
+
+    <!-- HEADER: System Settings & Security -->
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">System Settings & Security</span>
+    </li>
+
+    <!-- Account Settings -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cog"></i>
+        <div class="text-truncate" data-i18n="Account Settings">Account</div>
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Profile</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Notifications">Alerts</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="pages-account-settings-connections.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Connections">Connections</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-        <div class="text-truncate" data-i18n="Authentications">Authentications</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="auth-login-basic.html" class="menu-link" target="_blank">
-            <div class="text-truncate" data-i18n="Basic">Login</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="auth-register-basic.html" class="menu-link" target="_blank">
-            <div class="text-truncate" data-i18n="Basic">Register</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
-            <div class="text-truncate" data-i18n="Basic">Forgot Password</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-        <div class="text-truncate" data-i18n="Misc">Misc</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="pages-misc-error.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Error">Error</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="pages-misc-under-maintenance.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Under Maintenance">Under Maintenance</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-    <!-- Components -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
-    <!-- Cards -->
-    <li class="menu-item">
-        <a href="cards-basic.html" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div class="text-truncate" data-i18n="Basic">Cards</div>
-        </a>
-    </li>
-    <!-- User interface -->
-    <li class="menu-item">
-        <a href="javascript:void(0)" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-box"></i>
-        <div class="text-truncate" data-i18n="User interface">User interface</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="ui-accordion.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Accordion">Accordion</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-alerts.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Alerts">Alerts</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-badges.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Badges">Badges</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-buttons.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Buttons">Buttons</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-carousel.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Carousel">Carousel</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-collapse.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Collapse">Collapse</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-dropdowns.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Dropdowns">Dropdowns</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-footer.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Footer">Footer</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-list-groups.html" class="menu-link">
-            <div class="text-truncate" data-i18n="List Groups">List groups</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-modals.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Modals">Modals</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-navbar.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Navbar">Navbar</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-offcanvas.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Offcanvas">Offcanvas</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-pagination-breadcrumbs.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Pagination & Breadcrumbs">Pagination &amp; Breadcrumbs</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-progress.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Progress">Progress</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-spinners.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Spinners">Spinners</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-tabs-pills.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Tabs & Pills">Tabs &amp; Pills</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-toasts.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Toasts">Toasts</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-tooltips-popovers.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Tooltips & Popovers">Tooltips &amp; Popovers</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="ui-typography.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Typography">Typography</div>
+            <div class="text-truncate" data-i18n="Connections">Links</div>
             </a>
         </li>
         </ul>
     </li>
 
-    <!-- Extended components -->
+    <!-- Roles and Permissions -->
     <li class="menu-item">
-        <a href="javascript:void(0)" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-copy"></i>
-        <div class="text-truncate" data-i18n="Extended UI">Extended UI</div>
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-shield"></i>
+        <div class="text-truncate" data-i18n="Account Settings">Roles & Access</div>
         </a>
         <ul class="menu-sub">
         <li class="menu-item">
-            <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Perfect Scrollbar">Perfect Scrollbar</div>
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Roles</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="extended-ui-text-divider.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Text Divider">Text Divider</div>
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Permissions</div>
             </a>
         </li>
         </ul>
     </li>
 
-    <li class="menu-item">
-        <a href="icons-boxicons.html" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-crown"></i>
-        <div class="text-truncate" data-i18n="Boxicons">Boxicons</div>
-        </a>
-    </li>
-
-    <!-- Forms & Tables -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
-    <!-- Forms -->
+    <!-- Cron Job Settings -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-detail"></i>
-        <div class="text-truncate" data-i18n="Form Elements">Form Elements</div>
+        <i class="menu-icon tf-icons bx bx-time-five"></i>
+        <div class="text-truncate" data-i18n="Account Settings">Cron Jobs</div>
         </a>
         <ul class="menu-sub">
         <li class="menu-item">
-            <a href="forms-basic-inputs.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic Inputs">Basic Inputs</div>
+            <a href="pages-account-settings-account.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Account">Notif Settings</div>
+            <!-- Notification Settings (Email/SMS) -->
             </a>
         </li>
         <li class="menu-item">
-            <a href="forms-input-groups.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Input groups">Input groups</div>
+            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div class="text-truncate" data-i18n="Notifications">API Keys</div>
             </a>
         </li>
         </ul>
     </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-detail"></i>
-        <div class="text-truncate" data-i18n="Form Layouts">Form Layouts</div>
-        </a>
-        <ul class="menu-sub">
-        <li class="menu-item">
-            <a href="form-layouts-vertical.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Vertical Form">Vertical Form</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="form-layouts-horizontal.html" class="menu-link">
-            <div class="text-truncate" data-i18n="Horizontal Form">Horizontal Form</div>
-            </a>
-        </li>
-        </ul>
-    </li>
-    <!-- Form Validation -->
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/form-validation.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-list-check"></i>
-        <div class="text-truncate" data-i18n="Form Validation">Form Validation</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-    </li>
-    <!-- Tables -->
-    <li class="menu-item">
-        <a href="tables-basic.html" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-table"></i>
-        <div class="text-truncate" data-i18n="Tables">Tables</div>
-        </a>
-    </li>
-    <!-- Data Tables -->
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/tables-datatables-basic.html"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-grid"></i>
-        <div class="text-truncate" data-i18n="Datatables">Datatables</div>
-        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro</div>
-        </a>
-    </li>
-    <!-- Misc -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
-    <li class="menu-item">
-        <a
-        href="https://github.com/themeselection/sneat-bootstrap-html-admin-template-free/issues"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-support"></i>
-        <div class="text-truncate" data-i18n="Support">Support</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a
-        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-        target="_blank"
-        class="menu-link">
-        <i class="menu-icon tf-icons bx bx-file"></i>
-        <div class="text-truncate" data-i18n="Documentation">Documentation</div>
-        </a>
-    </li>
-    </ul>
 </aside>

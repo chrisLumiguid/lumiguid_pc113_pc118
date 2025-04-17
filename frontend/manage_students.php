@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="layout-menu-fixed layout-compact" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Students</title>
+    <title>Manage Students | TinangLab</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,48 +13,101 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <?php include 'stud_employee/header.php'; ?>
 
-    <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-        }
-        .content {
-            margin-left: var(--sidebar-width);
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-        .sidebar.collapsed ~ nav ~ .content {
-            margin-left: var(--sidebar-collapsed-width);
-        }
-        .dataTables_wrapper {
-            margin-top: 20px;
-        }
-        .table th {
-            background-color: #007bff;
-            color: white;
-        }
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-edit {
-            background-color: #f7b924;
-            color: white;
-        }
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-        }
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+    .content {
+      margin-left: var(--sidebar-width);
+      padding: 55px;
+      flex-grow: 1;
+      transition: margin-left 0.3s ease;
+    }
+    .sidebar.collapsed ~ nav ~ .content {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+    .dataTables_wrapper {
+      margin-top: 20px;
+    }
+    .table th {
+      background-color: #0056b3;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+    .table tbody tr {
+      transition: background-color 0.3s ease;
+    }
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .btn-custom {
+      background-color: #007bff;
+      color: white;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-weight: bold;
+    }
+    .btn-edit {
+      background-color: #f7b924;
+      color: white;
+      border-radius: 25px;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      border-radius: 25px;
+    }
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    }
+    .modal-header, .modal-footer {
+      background-color: #f7f9fc;
+    }
+    .form-label {
+      font-weight: bold;
+    }
+    .modal-body input,
+    .modal-body select {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 100%;
+    }
+    .modal-body button {
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .modal-body button:hover {
+      background-color: #0056b3;
+    }
+    .table-responsive {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .navbar {
+      display: flex;
+    }
+    .swal2-container {
+      z-index: 2000 !important;
+    }
 
-         .swal2-container {
-            z-index: 2000 !important; 
-        }
-    </style>
+    .table td, .table th {
+      padding: 8px 8px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+  </style>
 </head>
 <body>
     <?php include('partials/sidebar.php'); ?>
@@ -73,6 +126,7 @@
                         <i class="bi bi-plus-circle"></i> Add New Student
                     </button>
                 </div>
+                <div class="table-responsive">
                 <table id="studentsTable" class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -87,6 +141,7 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

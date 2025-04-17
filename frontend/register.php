@@ -1,85 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Register</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="register-container text-center">
-        <form onsubmit="event.preventDefault(); register();">
-            <h2 class="mb-4">Create a New Account</h2>
-            
-            <!-- Name Field -->
-            <div class="mb-3 text-start">
-                <label class="form-label">Name</label>
-                <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
-            </div>
-            
-            <!-- Email Field -->
-            <div class="mb-3 text-start">
-                <label class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-            </div>
-            
-            <!-- Password Field -->
-            <div class="mb-3 text-start">
-                <label class="form-label">Password</label>
-                <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
-            </div>
-            
-            <!-- Confirm Password Field -->
-            <div class="mb-3 text-start">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
-            </div>
+<!doctype html>
+<html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Register | SkillSync</title>
+    <meta name="description" content="" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="../assets/js/config.js"></script>
+  </head>
 
-            <button type="submit" class="btn btn-primary w-100">Register</button>
-            <p id="error" class="text-danger mt-2"></p>
-            <p class="mt-3">Already have an account? <a href="login.html" class="text-primary">Login</a></p>
-        </form>
+  <body>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <div class="card px-sm-6 px-0">
+            <div class="card-body">
+              <div class="app-brand justify-content-center mb-6">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <span class="text-primary">
+                      <!-- SVG logo here -->
+                    </span>
+                  </span>
+                  <span class="app-brand-text demo text-heading fw-bold">SkillSync</span>
+                </a>
+              </div>
+              <h4 class="mb-1">Adventure starts here 🚀</h4>
+              <p class="mb-6">Make your app management easy and fun!</p>
+
+              <form id="formAuthentication" class="mb-6" method="POST">
+                <div class="mb-6">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus required />
+                </div>
+                <div class="mb-6">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+                </div>
+                <div class="form-password-toggle">
+                  <label class="form-label" for="password">Password</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
+                    <span class="input-group-text cursor-pointer"><i class="icon-base bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="my-7">
+                  <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" required />
+                    <label class="form-check-label" for="terms-conditions">
+                      I agree to <a href="javascript:void(0);">privacy policy & terms</a>
+                    </label>
+                  </div>
+                </div>
+                <button class="btn btn-primary d-grid w-100">Sign up</button>
+              </form>
+
+              <p class="text-center">
+                <span>Already have an account?</span>
+                <a href="login.php">
+                  <span>Sign in instead</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Core JS -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page JS -->
 <script>
-    const apiBase = "http://127.0.0.1:8000/api/";
+      const apiBase = 'http://localhost:8000'; // Your API base URL
 
-    function register() {
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirmPassword").value;
+      document.getElementById('formAuthentication').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-        if (password !== confirmPassword) {
-            document.getElementById("error").textContent = "Passwords do not match.";
-            return;
-        }
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
 
-        fetch(apiBase + "register", {
-            method: "POST",
+        const errorBox = document.createElement('div');
+        errorBox.className = 'alert alert-danger mt-3';
+        errorBox.style.display = 'none';
+        document.querySelector('.card-body').prepend(errorBox);
+
+        try {
+          // Register user via POST request
+          const response = await fetch(`${apiBase}/api/register`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
             },
-            body: JSON.stringify({ name, email, password })
-        })
-        .then(res => res.json().then(data => ({ status: res.status, body: data })))
-        .then(({ status, body }) => {
-            if (status === 201) {
-                alert("Registration successful!");
-                window.location.href = "index.html";
+            body: JSON.stringify({
+              username,
+              email,
+              password,
+              password_confirmation: password
+            }),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            let messages = '';
+            if (result.errors) {
+              Object.values(result.errors).forEach(err => {
+                messages += `<div>${err.join('<br>')}</div>`;
+              });
             } else {
-                document.getElementById("error").textContent = body.message || "Error during registration";
+              messages = `<div>${result.message || 'Registration failed'}</div>`;
             }
-        })
-        .catch(() => {
-            document.getElementById("error").textContent = "Error connecting to the server";
-        });
-    }
-</script>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+            errorBox.innerHTML = messages;
+            errorBox.style.display = 'block';
+          } else {
+            alert('🎉 Registration successful!');
+            window.location.href = 'login.php'; 
+          }
+        } catch (error) {
+          console.error('Fetch error:', error);
+          errorBox.innerHTML = 'Something went wrong. Please try again.';
+          errorBox.style.display = 'block';
+        }
+      });
+    </script>
+  </body>
 </html>
