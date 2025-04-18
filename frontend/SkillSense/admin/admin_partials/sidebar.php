@@ -122,12 +122,8 @@ function isActive($routes) {
         </a>
         <ul class="menu-sub">
         <li class="menu-item <?= isActive('users/all_users.php') ?>">
-            <a
-            href="users/all_users.php"
-            class="menu-link"
-            target="_blank">
+            <a href="admin_index.php?page=all_users" class="menu-link">
             <div class="text-truncate" data-i18n="All Users">All Users</div>
-            
             </a>
         </li>
         <li class="menu-item <?= isActive('users/portfolio_owners.php') ?>">
