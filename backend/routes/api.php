@@ -9,22 +9,31 @@ use App\Http\Controllers\ListController;
 use App\Http\Controllers\TestimonialController;
 
 // -----------------------
-// Public Authentication (handled by UserController now)
+// Public Authentication
 // -----------------------
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/update-profile', [UserController::class, 'updateProfile']);
 
+        Route::get('/employees', [ListController::class, 'getEmployees']);
+        Route::get('/students', [ListController::class, 'getStudents']);
+
+        Route::get('/search', [ListController::class, 'search']);
+        Route::post('/create/{type}', [ListController::class, 'create']);
+        Route::get('/{type}/{id}', [ListController::class, 'show']);
+        Route::put('/update/{type}/{id}', [ListController::class, 'update']);
+        Route::delete('/delete/{type}/{id}', [ListController::class, 'delete']);
 // -----------------------
-// Protected Routes
+// Protected Routes (auth:sanctum)
 // -----------------------
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    // Optional: Add logout and update-profile here once implemented
-    // Route::post('/logout', [UserController::class, 'logout']);
-    // Route::put('/profile', [UserController::class, 'updateProfile']);
+    // 🔐 Logout, Profile (optional)
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::put('/profile', [UserController::class, 'updateProfile']);
 
     // -----------------------
-    // Employer Routes
+    // 👤 Employer Routes
     // -----------------------
     Route::middleware('role:employer')->prefix('employer')->group(function () {
         Route::get('/dashboard', [EmployerController::class, 'dashboard']);
@@ -32,7 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // -----------------------
-    // Portfolio Owner Routes
+    // 🧑‍💼 Portfolio Owner Routes
     // -----------------------
     Route::middleware('role:portfolio_owner')->prefix('portfolio')->group(function () {
         Route::get('/', [PortfolioController::class, 'index'])->name('portfolios.index');
@@ -44,28 +53,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // -----------------------
-    // Portfolio Owner Profile CRUD
+    // 🧑‍💻 Portfolio Owner Profile CRUD (restricted to portfolio_owner)
     // -----------------------
-    Route::prefix('portfolio-owners')->group(function () {
+    Route::middleware('role:portfolio_owner')->prefix('portfolio-owners')->group(function () {
         Route::get('/', [PortfolioOwnerController::class, 'index']);
         Route::post('/', [PortfolioOwnerController::class, 'store']);
         // Add update/delete as needed
     });
 
     // -----------------------
-    // Students & Employees CRUD + Search
+    // 📋 Students & Employees CRUD + Search (admin or portfolio_owner maybe?)
     // -----------------------
-    Route::get('/list/employees', [ListController::class, 'getEmployees']);
-    Route::get('/list/students', [ListController::class, 'getStudents']);
+    Route::middleware('role:admin,portfolio_owner')->group(function () {
 
-    Route::get('/search', [ListController::class, 'search']);
-    Route::post('/create/{type}', [ListController::class, 'create']);
-    Route::get('/{type}/{id}', [ListController::class, 'show']);
-    Route::put('/{type}/{id}', [ListController::class, 'update']);
-    Route::delete('/{type}/{id}', [ListController::class, 'delete']);
+
+    });
 
     // -----------------------
-    // Testimonials CRUD
+    // 🌟 Testimonials CRUD (all authenticated users)
     // -----------------------
     Route::get('/testimonials', [TestimonialController::class, 'index']);
     Route::post('/testimonials', [TestimonialController::class, 'store']);

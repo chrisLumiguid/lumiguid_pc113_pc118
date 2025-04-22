@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -55,89 +55,84 @@ class UserController extends Controller
     // User login
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed.',
-                'errors' => $validator->errors()
-            ], 400);
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        try {
-            $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return response()->json(['message' => 'Invalid credentials.'], 401);
-            }
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            return response()->json([
-                'message' => 'Login successful.',
-                'token' => $token,
-                'user' => $user
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Login failed: ' . $e->getMessage());
-            return response()->json([
-                'message' => 'Login failed.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+    return response()->json([
+        'message' => 'Login successful',
+        'token' => $token,
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+        ]
+    ]);
     }
+
 
     // 🔒 Logout user
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete(); // Revoke all tokens
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Logged out successfully.'
         ]);
     }
 
-    // ✏️ Update profile (authenticated)
-    public function updateProfile(Request $request)
-    {
-        $user = $request->user();
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6',
-        ]);
+public function updateProfile(Request $request)
+{
+    $user = $request->user(); 
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed.',
-                'errors' => $validator->errors()
-            ], 422);
-        }
+    
+    $validated = $request->validate([
+        'firstName' => 'required|string|max:255',
+        'lastName' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id, 
+        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:800',
+        'resume' => 'nullable|file|mimes:pdf,docx|max:2048', 
+    ]);
 
-        try {
-            $user->update([
-                'name' => $request->name ?? $user->name,
-                'email' => $request->email ?? $user->email,
-                'password' => $request->password ? Hash::make($request->password) : $user->password,
-            ]);
-
-            return response()->json([
-                'message' => 'Profile updated successfully.',
-                'user' => $user
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Update profile failed: ' . $e->getMessage());
-            return response()->json([
-                'message' => 'Profile update failed.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+   
+    if ($request->hasFile('profile_picture')) {
+        $file = $request->file('profile_picture');
+        $path = $file->store('profile_pictures', 'public');
+        $user->profile_picture = $path;
     }
+
+    
+    if ($request->hasFile('resume')) {
+        $resumeFile = $request->file('resume');
+        $resumePath = $resumeFile->store('resumes', 'public');
+        $user->resume = $resumePath; 
+    }
+
+
+    $user->first_name = $request->firstName;
+    $user->last_name = $request->lastName;
+    $user->email = $request->email;
+    $user->save();
+
+    
+    return response()->json([
+        'message' => 'Profile updated successfully!',
+        'user' => $user
+    ]);
+}
+
+
 
     // 🔐 Role check (example)
     public function adminOnly(Request $request)

@@ -1,4 +1,15 @@
+<?php
+if (!isset($user)) {
+    $user = [
+        'name' => 'Guest',
+        'profile_image' => null
+    ];
+}
 
+$avatarUrl = $user['profile_image']
+    ? $user['profile_image']
+    : 'https://ui-avatars.com/api/?name=' . urlencode($user['name']) . '&color=7F9CF5&background=EBF4FF';
+?>
 <!-- partials/navbar.php -->
  
 <nav
@@ -45,7 +56,7 @@ id="layout-navbar">
         href="javascript:void(0);"
         data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-            <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+            <img src="<?= $avatarUrl ?>" alt="<?= $user['name'] ?>" class="w-px-40 h-auto rounded-circle" />
         </div>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
@@ -54,11 +65,12 @@ id="layout-navbar">
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
                 <div class="avatar avatar-online">
-                    <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <!-- Avatar Image -->
+                    <img id="user-avatar" src="<?= $avatarUrl ?>" alt="<?= $user['name'] ?>" class="w-px-40 h-auto rounded-circle" />
                 </div>
                 </div>
                 <div class="flex-grow-1">
-                <h6 class="mb-0">John Doe</h6>
+                <h6 class="mb-0" id="user-name">John Doe</h6>
                 <small class="text-body-secondary">Admin</small>
                 </div>
             </div>
@@ -78,19 +90,10 @@ id="layout-navbar">
             </a>
         </li>
         <li>
-            <a class="dropdown-item" href="#">
-            <span class="d-flex align-items-center align-middle">
-                <i class="flex-shrink-0 icon-base bx bx-credit-card icon-md me-3"></i
-                ><span class="flex-grow-1 align-middle">Billing Plan</span>
-                <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
-            </span>
-            </a>
-        </li>
-        <li>
             <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-            <a class="dropdown-item" href="javascript:void(0);">
+            <a class="dropdown-item" href="javascript:void(0);" id="logout-btn">
             <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
             </a>
         </li>
@@ -100,3 +103,32 @@ id="layout-navbar">
     </ul>
 </div>
 </nav>
+
+<script>
+document.getElementById('logout-btn')?.addEventListener('click', async function () {
+    try {
+        const token = localStorage.getItem('auth_token'); 
+
+        const response = await fetch('http://localhost:8000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            localStorage.removeItem('auth_token');
+            // Optionally clear user data and redirect
+            window.location.href = 'login.php';
+        } else {
+            const err = await response.json();
+            alert('Logout failed: ' + (err.message || 'Unknown error'));
+        }
+    } catch (e) {
+        console.error('Logout error:', e);
+        alert('Logout error. Please try again.');
+    }
+});
+</script>

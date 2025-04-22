@@ -45,8 +45,8 @@
 
               <form id="formAuthentication" class="mb-6" method="POST">
                 <div class="mb-6">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus required />
+                  <label for="name" class="form-label">Full Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" autofocus required />
                 </div>
                 <div class="mb-6">
                   <label for="email" class="form-label">Email</label>
@@ -56,6 +56,13 @@
                   <label class="form-label" for="password">Password</label>
                   <div class="input-group input-group-merge">
                     <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
+                    <span class="input-group-text cursor-pointer"><i class="icon-base bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="form-password-toggle">
+                  <label class="form-label" for="password_confirmation">Confirm Password</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password_confirmation" required />
                     <span class="input-group-text cursor-pointer"><i class="icon-base bx bx-hide"></i></span>
                   </div>
                 </div>
@@ -93,15 +100,16 @@
     <script src="../assets/js/main.js"></script>
 
     <!-- Page JS -->
-<script>
+    <script>
       const apiBase = 'http://localhost:8000'; // Your API base URL
 
       document.getElementById('formAuthentication').addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const username = document.getElementById('username').value.trim();
+        const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
+        const password_confirmation = document.getElementById('password_confirmation').value.trim();
 
         const errorBox = document.createElement('div');
         errorBox.className = 'alert alert-danger mt-3';
@@ -117,10 +125,10 @@
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              username,
+              name,  
               email,
               password,
-              password_confirmation: password
+              password_confirmation,  
             }),
           });
 

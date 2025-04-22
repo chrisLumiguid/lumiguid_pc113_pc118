@@ -51,13 +51,14 @@
           <div class="card mb-6">
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4 pb-4 border-bottom">
-                <img src="../assets/img/avatars/1.png" alt="user-avatar" class="w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+                <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="user-avatar" class="w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                 <div class="button-wrapper">
                   <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
                     <span class="d-none d-sm-block">Upload new photo</span>
                     <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input type="file" id="upload" name="profile_picture" class="account-file-input" hidden accept="image/png, image/jpeg" />
                   </label>
+                  <!-- Added missing input field for profile picture -->
+                  <input type="file" id="upload" name="profile_picture" class="d-none" />
                   <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" id="resetImage">
                     <i class="bx bx-reset d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Reset</span>
@@ -68,21 +69,8 @@
             </div>
 
             <div class="card-body pt-4">
-
               <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                 <div class="row g-4">
-                  <div class="col-md-6">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input class="form-control" type="text" id="firstName" name="firstName" value="John" />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input class="form-control" type="text" id="lastName" name="lastName" value="Doe" />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="email" class="form-label">E-mail</label>
-                    <input class="form-control" type="email" id="email" name="email" value="john.doe@example.com" />
-                  </div>
                   <div class="col-md-6">
                     <label for="fileUpload" class="form-label">Upload Resume or File</label>
                     <input type="file" id="fileUpload" name="resume" class="dropify" data-allowed-file-extensions="jpg png jpeg pdf docx" data-max-file-size="2M" data-height="120" />
@@ -94,7 +82,6 @@
                   <button type="reset" class="btn btn-outline-secondary">Cancel</button>
                 </div>
               </form>
-              
             </div>
           </div>
 
@@ -127,94 +114,96 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-  $(document).ready(function () {
-    // Initialize Dropify for resume field
-    $('.dropify').dropify();
+    $(document).ready(function () {
+      // Initialize Dropify
+      $('.dropify').dropify();
 
-    // Handle image preview on selecting avatar image
-    $('#upload').on('change', function () {
-      const file = this.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          $('#uploadedAvatar').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(file);
+      // Preview selected profile image
+      $('#upload').on('change', function () {
+        const file = this.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            $('#uploadedAvatar').attr('src', e.target.result);
+          };
+          reader.readAsDataURL(file);
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Photo selected!',
-          text: file.name,
-          timer: 1500,
-          showConfirmButton: false
-        });
-      }
-    });
-
-    // Reset avatar to default
-    $('#resetImage').on('click', function () {
-      $('#upload').val('');
-      $('#uploadedAvatar').attr('src', '../assets/img/avatars/1.png');
-    });
-
-    // Show alert for resume/file selection
-    $('#fileUpload').on('change', function () {
-      const file = this.files[0];
-      if (file) {
-        Swal.fire({
-          icon: 'success',
-          title: 'File Selected!',
-          text: `You selected "${file.name}"`,
-          timer: 1800,
-          showConfirmButton: false
-        });
-      }
-    });
-
-    // Handle profile form submission
-    $('#formAccountSettings').on('submit', function (e) {
-      e.preventDefault();
-
-      const formData = new FormData(this);
-      const profilePic = $('#upload')[0].files[0];
-      if (profilePic) {
-        formData.append('profile_picture', profilePic);
-      }
-
-      $.ajax({
-        url: 'http://localhost:8000/api/update-profile',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        },
-        success: function (response) {
           Swal.fire({
             icon: 'success',
-            title: 'Profile Updated!',
-            text: response.message
-          });
-
-          if (response.user?.profile_picture) {
-            $('#uploadedAvatar').attr('src', '/storage/' + response.user.profile_picture);
-          }
-        },
-        error: function (xhr) {
-          const err = xhr.responseJSON?.message || 'Something went wrong';
-          Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: err
+            title: 'Photo selected!',
+            text: file.name,
+            timer: 1500,
+            showConfirmButton: false
           });
         }
       });
+
+      // Reset avatar
+      $('#resetImage').on('click', function () {
+        $('#upload').val('');
+        $('#uploadedAvatar').attr('src', '../assets/img/avatars/1.png');
+      });
+
+      // SweetAlert for resume file selection
+      $('#fileUpload').on('change', function () {
+        const file = this.files[0];
+        if (file) {
+          Swal.fire({
+            icon: 'success',
+            title: 'File Selected!',
+            text: `You selected "${file.name}"`,
+            timer: 1800,
+            showConfirmButton: false
+          });
+        }
+      });
+
+      // Form submission
+      $('#formAccountSettings').on('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const profilePic = $('#upload')[0].files[0];
+        const resumeFile = $('#fileUpload')[0].files[0];
+
+        if (profilePic) {
+          formData.append('profile_picture', profilePic);
+        }
+        if (resumeFile) {
+          formData.append('resume', resumeFile);
+        }
+
+        $.ajax({
+          url: 'http://localhost:8000/api/update-profile',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          },
+          success: function (response) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Profile Updated!',
+              text: response.message
+            });
+
+            if (response.user?.profile_picture) {
+              $('#uploadedAvatar').attr('src', '/storage/' + response.user.profile_picture + '?' + new Date().getTime());
+            }
+          },
+          error: function (xhr) {
+            const err = xhr.responseJSON?.message || 'Something went wrong';
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: err
+            });
+          }
+        });
+      });
     });
-  });
-
-
-
   </script>
 </body>
 </html>

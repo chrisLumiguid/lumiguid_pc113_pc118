@@ -3,7 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
 
@@ -15,10 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
 
     ->withMiddleware(function (Middleware $middleware) {
-        // Define the middleware group for API
+        // Define the middleware group for API — CLEANED ✅
         $middleware->group('api', [
-            EnsureFrontendRequestsAreStateful::class,
-            // 'throttle:api',
+            // 'throttle:api', // Optional: uncomment if you want API rate limiting
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 

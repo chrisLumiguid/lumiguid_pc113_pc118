@@ -1,22 +1,19 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run(): void
+    public function run()
     {
-        $this->call([
-            StudentSeeder::class,
-            EmployeeSeeder::class,
-            
-        ]);
+        $this->call(EmployerSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(StudentSeeder::class);
+        $this->call(ProjectSeeder::class);
+        $this->call(PortfolioSeeder::class); 
+        $this->call(EmployeeSeeder::class);
+        $this->call(PortfolioOwnerSeeder::class);
+        $this->call(TestimonialSeeder::class);
     }
 }

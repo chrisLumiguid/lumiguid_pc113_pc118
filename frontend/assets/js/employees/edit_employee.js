@@ -65,14 +65,17 @@ document.getElementById("editEmployeeForm").addEventListener("submit", function 
 	const form = document.getElementById("editEmployeeForm");
 	const formData = new FormData(form);
 
-	fetch(`http://localhost:8000/api/update/${employeeId}/employee`, {
-		method: "POST", // Laravel doesn't support PUT with FormData directly
-		headers: {
-			Accept: "application/json",
-			"X-HTTP-Method-Override": "PUT", // Tells Laravel it's actually a PUT
-		},
-		body: formData,
-	})
+	fetch(
+		`http://localhost:8000/api/employee/${employeeId}`,
+		{
+			method: "POST", 
+			headers: {
+				Accept: "application/json",
+				"X-HTTP-Method-Override": "PUT", 
+			},
+			body: formData,
+		}
+	)
 		.then(async (response) => {
 			const contentType = response.headers.get("content-type");
 			if (!contentType || !contentType.includes("application/json")) {

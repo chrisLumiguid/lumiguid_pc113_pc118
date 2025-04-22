@@ -79,7 +79,7 @@ function isActive($routes) {
 
     <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item <?= isActive(['admin_index.php']) ?>"> <!---active open--->
+    <li class="menu-item <?= isActive(['admin_index.php']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-smile"></i>
         <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
@@ -127,18 +127,12 @@ function isActive($routes) {
             </a>
         </li>
         <li class="menu-item <?= isActive('users/portfolio_owners.php') ?>">
-            <a
-            href="all/portfolio_owners.php"
-            class="menu-link"
-            target="_blank">
+            <a href="admin_index.php?page=portfolio_owners.php" class="menu-link">
             <div class="text-truncate" data-i18n="Portfolio Owner">Portfolio Owner</div>
             </a>
         </li>
         <li class="menu-item <?= isActive('users/employers.php') ?>">
-            <a
-            href="users/employers.php"
-            class="menu-link"
-            target="_blank">
+            <a href="admin_index.php?page=employers.php" class="menu-link">
             <div class="text-truncate" data-i18n="Employers">Employers</div>
             </a>
         </li>
