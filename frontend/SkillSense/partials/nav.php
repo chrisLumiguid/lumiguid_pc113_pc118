@@ -10,8 +10,8 @@ $avatarUrl = $user['profile_image']
     ? $user['profile_image']
     : 'https://ui-avatars.com/api/?name=' . urlencode($user['name']) . '&color=7F9CF5&background=EBF4FF';
 ?>
-<!-- partials/navbar.php -->
- 
+
+
 <nav
 class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
 id="layout-navbar">
@@ -93,7 +93,7 @@ id="layout-navbar">
             <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-            <a class="dropdown-item" href="javascript:void(0);" id="logout-btn">
+            <a class="dropdown-item" href="javascript:void(0);" onclick="logout()">
             <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
             </a>
         </li>
@@ -105,30 +105,9 @@ id="layout-navbar">
 </nav>
 
 <script>
-document.getElementById('logout-btn')?.addEventListener('click', async function () {
-    try {
-        const token = localStorage.getItem('auth_token'); 
-
-        const response = await fetch('http://localhost:8000/api/logout', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            localStorage.removeItem('auth_token');
-            // Optionally clear user data and redirect
-            window.location.href = 'login.php';
-        } else {
-            const err = await response.json();
-            alert('Logout failed: ' + (err.message || 'Unknown error'));
-        }
-    } catch (e) {
-        console.error('Logout error:', e);
-        alert('Logout error. Please try again.');
-    }
-});
+  function logout() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('role');
+    window.location.href = 'login.php';
+  }
 </script>

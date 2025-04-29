@@ -8,7 +8,7 @@ class PortfolioSeeder extends Seeder
 {
     public function run()
     {
-        Portfolio::factory()->count(50)->create();
+        Portfolio::factory()->count(5)->create();
     }
 }
 

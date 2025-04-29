@@ -8,7 +8,7 @@ class EmployerSeeder extends Seeder
 {
     public function run()
     {
-        Employer::factory()->count(50)->create(); 
+        Employer::factory()->count(5)->create(); 
     }
 }
 

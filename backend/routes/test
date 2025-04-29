@@ -64,45 +64,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     });
 
-    Route::middleware('role:admin')->prefix('admin')->group(function () {
-        // Portfolio Management
-        Route::get('/portfolios', [PortfolioController::class, 'index']);
-        Route::get('/portfolios/{id}', [PortfolioController::class, 'show']);
-        Route::post('/portfolios', [PortfolioController::class, 'store']);
-        Route::put('/portfolios/{id}', [PortfolioController::class, 'update']);
-        Route::delete('/portfolios/{id}', [PortfolioController::class, 'destroy']);
 
-        // Employer Management
-        Route::get('/employers', [EmployerController::class, 'index']); 
-        Route::get('/employers/{id}', [EmployerController::class, 'show']);
-        Route::post('/employers', [EmployerController::class, 'store']);
-        Route::put('/employers/{id}', [EmployerController::class, 'update']); 
-        Route::delete('/employers/{id}', [EmployerController::class, 'destroy']);
-
-        // Portfolio Owner Management
-        Route::get('/portfolio-owners', [PortfolioOwnerController::class, 'index']);
-        Route::get('/portfolio-owners/{id}', [PortfolioOwnerController::class, 'show']);
-        Route::post('/portfolio-owners', [PortfolioOwnerController::class, 'store']); 
-        Route::put('/portfolio-owners/{id}', [PortfolioOwnerController::class, 'update']);
-        Route::delete('/portfolio-owners/{id}', [PortfolioOwnerController::class, 'destroy']);
-
-        // Portfolio Report Management
-        Route::get('/reports', [PortfolioReportController::class, 'index']);     
-        Route::get('/reports/create', [PortfolioReportController::class, 'create']);
-        Route::post('/reports', [PortfolioReportController::class, 'store']); 
-        Route::get('/reports/{report}', [PortfolioReportController::class, 'show']); 
-        Route::get('/reports/{report}/edit', [PortfolioReportController::class, 'edit']); 
-        Route::put('/reports/{report}', [PortfolioReportController::class, 'update']); 
-        Route::delete('/reports/{report}', [PortfolioReportController::class, 'destroy']); 
-
-        // Testimonial Management
-        Route::get('/testimonials', [TestimonialController::class, 'index']); 
-        Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show']); 
-        Route::post('/testimonials', [TestimonialController::class, 'store']); 
-        Route::put('/testimonials/{testimonial}', [TestimonialController::class, 'update']); 
-        Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy']); 
-    });
-
+    
 
     // -----------------------
     // 🧑‍💻 Portfolio Owner Profile CRUD (restricted to portfolio_owner)

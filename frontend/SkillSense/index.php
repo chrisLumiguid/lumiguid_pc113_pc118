@@ -14,12 +14,12 @@
 </head>
 <body>
 
-  <?php include('home_partials/nav.php'); ?>
-  <?php include('home_partials/hero.php'); ?>
-  <?php include('home_partials/filter-tabs.php'); ?>
-  <?php include('home_partials/projects.php'); ?>
-  <?php include('home_partials/signin-cta.php'); ?>
-  <?php include('home_partials/footer.php'); ?>
+  <?php include('partials/home/nav.php'); ?>
+  <?php include('partials/home/hero.php'); ?>
+  <?php include('partials/home/filter-tabs.php'); ?>
+  <?php include('partials/home/projects.php'); ?>
+  <?php include('partials/home/signin-cta.php'); ?>
+  <?php include('partials/home/footer.php'); ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 

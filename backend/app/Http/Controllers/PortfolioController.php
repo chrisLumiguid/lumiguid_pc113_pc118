@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;  // Import Auth class
+use Illuminate\Support\Facades\Auth;  
 
 class PortfolioController extends Controller
 {
     public function index()
-    {
-        $portfolios = Portfolio::all(); // Add pagination if needed
-        return view('portfolios.index', compact('portfolios'));
+{
+    $portfolios = Portfolio::all(); // Ensure this retrieves data
+    if ($portfolios->isEmpty()) {
+        return response()->json(['message' => 'Portfolios not found'], 404);
     }
+    return response()->json($portfolios);
+}
 
     public function create()
     {

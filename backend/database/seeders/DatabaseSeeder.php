@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EmployeeSeeder::class);
         $this->call(PortfolioOwnerSeeder::class);
         $this->call(TestimonialSeeder::class);
+        $this->call(PortfolioReportSeeder::class);
     }
 }

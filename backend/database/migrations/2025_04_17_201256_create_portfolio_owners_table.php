@@ -57,6 +57,7 @@ return new class extends Migration
             $table->string('location')->nullable(); // e.g., "New York, USA"
             $table->string('phone')->nullable();
             $table->string('contact_email')->nullable();
+            
 
             $table->timestamps();
         });

@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="../assets/css/demo.css" />
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
-    <link rel="stylesheet" href="../assets/css/portfolios.css"/>
+    <!-- <link rel="stylesheet" href="../assets/css/portfolios.css"/> -->
     <script src="../assets/vendor/js/helpers.js"></script>
     <script src="../assets/js/config.js"></script>
   </head>
   <body>
-  <div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
+  <!-- <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container"> -->
 
 
 

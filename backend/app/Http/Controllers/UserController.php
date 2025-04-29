@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -81,6 +81,8 @@ class UserController extends Controller
     }
 
 
+
+
     // 🔒 Logout user
     public function logout(Request $request)
     {
@@ -131,9 +133,6 @@ public function updateProfile(Request $request)
         'user' => $user
     ]);
 }
-
-
-
     // 🔐 Role check (example)
     public function adminOnly(Request $request)
     {

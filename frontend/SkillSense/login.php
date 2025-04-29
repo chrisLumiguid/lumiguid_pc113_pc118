@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/" data-template="vertical-menu-template-free">
   <head>
@@ -32,12 +35,8 @@
         <div class="authentication-inner">
           <div class="card px-sm-6 px-0">
             <div class="card-body">
-              <!-- Brand -->
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
-                    <!-- SVG Logo -->
-                  </span>
+                <a href="#" class="app-brand-link gap-2">
                   <span class="app-brand-text demo text-heading fw-bold">SkillSync</span>
                 </a>
               </div>
@@ -45,8 +44,7 @@
               <h4 class="mb-1">Welcome to SkillSync! 👋</h4>
               <p class="mb-4">Sign in to continue</p>
 
-              <!-- Login Form -->
-              <form id="formAuthentication" class="mb-4" novalidate>
+              <form id="formAuthentication" method="POST" action="" class="mb-4" novalidate>
                 <div id="error" class="text-danger text-center mb-3"></div>
 
                 <div class="mb-3">
@@ -93,62 +91,72 @@
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="../assets/vendor/js/menu.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  document.getElementById('formAuthentication').addEventListener('submit', async function (e) {
+  const apiBase = 'http://localhost:8000'; 
+
+document.getElementById('formAuthentication').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
-  const errorBox = document.createElement('div');
-  errorBox.className = 'alert alert-danger mt-3';
-  errorBox.style.display = 'none';
-  document.querySelector('.card-body').prepend(errorBox);
-
   try {
-    // Register user via Bearer Token Authentication
-    const response = await fetch(`${apiBase}/api/register`, {
+    const response = await fetch(`${apiBase}/api/login`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`, // Sending the Bearer Token
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        password_confirmation: password
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
 
     const result = await response.json();
 
-    if (!response.ok) {
-      let messages = '';
-      if (result.errors) {
-        Object.values(result.errors).forEach(err => {
-          messages += `<div>${err.join('<br>')}</div>`;
-        });
-      } else {
-        messages = `<div>${result.message || 'Registration failed'}</div>`;
-      }
+    if (response.ok) {
+      // Save to localStorage
+      localStorage.setItem('auth_token', result.token);
+      localStorage.setItem('role', result.user.role);
 
-      errorBox.innerHTML = messages;
-      errorBox.style.display = 'block';
+     fetch('set_session.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: result.user.id,
+          role: result.user.role
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          window.location.href = 'dashboard.php?page=dashboard';
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Session Error',
+            text: 'Could not set session. Please try again.'
+          });
+        }
+      });
+
     } else {
-      alert('🎉 Registration successful!');
-      window.location.href = 'login.php';
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: result.message || 'Invalid email or password.'
+      });
     }
+
   } catch (error) {
-    console.error('Fetch error:', error);
-    errorBox.innerHTML = 'Something went wrong. Please try again.';
-    errorBox.style.display = 'block';
+    console.error(error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Something went wrong. Please try again later.'
+    });
   }
 });
 
 </script>
+
+
+
   </body>
 </html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Choose Account Type</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .account-type {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .type {
+            flex: 1;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .type:hover,
+        .type.active {
+            border-color: #007bff;
+            background-color: #e6f0ff;
+            color: #007bff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .forgot,
+        .signup {
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .forgot:hover,
+        .signup:hover {
+            text-decoration: underline;
+        }
+
+        .info-text {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login to Your Account</h1>
+        
+        <div class="account-type">
+            <div class="type active" id="doctor">
+     <lord-icon target="div" loading="interaction" trigger="hover" src="https://media.lordicon.com/icons/wired/outline/1023-portfolio.li">
+            <img alt="" loading="eager" src="https://media.lordicon.com/icons/wired/outline/1023-portfolio.svg">
+        </lord-icon>Doctor</div>
+            <div class="type" id="patient">Patient</div>
+        </div>
+
+        <p class="info-text" id="infoText">Hello Doctor! Please log in to continue.</p>
+
+        <form>
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="example@mail.com" required />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required />
+
+            <a href="#" class="forgot">Forgot Password?</a>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <p class="info-text">No account? <a href="#" class="signup">Sign up here</a></p>
+    </div>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+    <script>
+        const doctorBtn = document.getElementById('doctor');
+        const patientBtn = document.getElementById('patient');
+        const infoText = document.getElementById('infoText');
+
+        doctorBtn.addEventListener('click', () => {
+            doctorBtn.classList.add('active');
+            patientBtn.classList.remove('active');
+            infoText.textContent = 'Hello Doctor! Please log in to continue.';
+        });
+
+        patientBtn.addEventListener('click', () => {
+            patientBtn.classList.add('active');
+            doctorBtn.classList.remove('active');
+            infoText.textContent = 'Hello Patient! Please log in to continue.';
+        });
+    </script>
+</body>
+</html>

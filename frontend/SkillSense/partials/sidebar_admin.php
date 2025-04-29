@@ -1,13 +1,22 @@
-<?php include 'admin_partials/header.php';?>
 
 <?php
+// include 'partials/header.php';
+
 function isActive($routes) {
-    $current = basename($_SERVER['PHP_SELF']);
+    $currentPage = $_GET['page'] ?? '';
+
     if (is_array($routes)) {
-        return in_array($current, $routes) ? 'active open' : '';
+        foreach ($routes as $route) {
+            if ($currentPage === $route) return 'active open';
+        }
+        return '';
     }
-    return $current === $routes ? 'active' : '';
+
+    return ($currentPage === $routes) ? 'active' : '';
 }
+
+
+
 ?>
 
 <!-- partials/sidebar.php -->
@@ -65,9 +74,9 @@ function isActive($routes) {
         </svg>
         </span>
         </span>
-        <span class="app-brand-text demo menu-text fw-bold ms-2">SkillSense</span>
+        <span class="app-brand-text demo menu-text fw-bold ms-2">skillsense.</span>
     </a>
-  <?php $currentPage = basename($_SERVER['PHP_SELF']); ?>
+
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
         <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
     </a>
@@ -79,7 +88,7 @@ function isActive($routes) {
 
     <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item <?= isActive(['admin_index.php']) ?>">
+    <li class="menu-item <?= isActive(['dashboard.php']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-smile"></i>
         <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
@@ -115,24 +124,24 @@ function isActive($routes) {
     </li>
 
     <!-- User Management -->
-    <li class="menu-item <?= isActive(['users/all_users.php', 'users/admins.php', 'users/portfolio_owners.php', 'users/employers.php']) ?>">
+    <li class="menu-item <?= isActive(['users_mgmt/all_users', 'users_mgmt/portfolio_owners', 'users_mgmt/employers']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div class="text-truncate" data-i18n="User Management">Users</div>
         </a>
         <ul class="menu-sub">
-        <li class="menu-item <?= isActive('users/all_users.php') ?>">
-            <a href="admin_index.php?page=all_users" class="menu-link">
+        <li class="menu-item <?= isActive(['all_users.php']) ?>">
+            <a href="dashboard.php?page=users_mgmt/all_users" class="menu-link">
             <div class="text-truncate" data-i18n="All Users">All Users</div>
             </a>
         </li>
-        <li class="menu-item <?= isActive('users/portfolio_owners.php') ?>">
-            <a href="admin_index.php?page=portfolio_owners.php" class="menu-link">
-            <div class="text-truncate" data-i18n="Portfolio Owner">Portfolio Owner</div>
+        <li class="menu-item <?= isActive(['portfolio_owners.php']) ?>">
+            <a href="dashboard.php?page=users_mgmt/portfolio_owners" class="menu-link">
+            <div class="text-truncate" data-i18n="Portfolio Owner">Portfolio Owners</div>
             </a>
         </li>
-        <li class="menu-item <?= isActive('users/employers.php') ?>">
-            <a href="admin_index.php?page=employers.php" class="menu-link">
+        <li class="menu-item <?= isActive(['employers.php']) ?>">
+            <a href="dashboard.php?page=users_mgmt/employers" class="menu-link">
             <div class="text-truncate" data-i18n="Employers">Employers</div>
             </a>
         </li>
@@ -140,77 +149,41 @@ function isActive($routes) {
     </li>
 
     <!-- Portfolio Management -->
-    <li class="menu-item">
+    <li class="menu-item <?= isActive(['portfolio_mgmt/all_portfolios', 'portfolio_mgmt/reports']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-briefcase"></i>
         <div class="text-truncate" data-i18n="Portfolios">Portfolios</div>
         </a>
         <ul class="menu-sub">
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
+        <li class="menu-item <?= isActive(['all_portfolios.php']) ?>">
+            <a href="dashboard.php?page=portfolio_mgmt/all_portfolios" class="menu-link">
             <div class="text-truncate" data-i18n="All Portfolios">All Portfolios</div>
             <!-- Apil na filter by role -->
+            <!-- Apil na ang status kung pending ba or deli -->
             </a>
         </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Pending">Pending</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
+        <li class="menu-item <?= isActive(['reports.php']) ?>">
+            <a href="dashboard.php?page=portfolio_mgmt/reports" class="menu-link">
             <div class="text-truncate" data-i18n="Reports">Reports</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Print/Export Portfolios">Print / Export Portfolios</div>
             </a>
         </li>
         </ul>
     </li>
 
     <!-- Project Management -->
-    <li class="menu-item">
+    <li class="menu-item <?= isActive(['project_mgmt/all_projects', 'project_mgmt/upload_projects']) ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-folder"></i>
         <div class="text-truncate" data-i18n="Projects">Projects</div>
         </a>
         <ul class="menu-sub">
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="All">All</div>
-            <!-- Apil na filter by role -->
+        <li class="menu-item <?= isActive(['all_projects.php']) ?>">
+            <a href="dashboard.php?page=project_mgmt/all_projects" class="menu-link">
+            <div class="text-truncate" data-i18n="All Projects">All Projects</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Featured">Featured</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
+        <li class="menu-item <?= isActive(['upload_projects.php']) ?>">
+            <a href="dashboard.php?page=project_mgmt/upload_projects" class="menu-link">
             <div class="text-truncate" data-i18n="Upload Projects">Upload Projects</div>
             </a>
         </li>
@@ -218,40 +191,37 @@ function isActive($routes) {
     </li>
 
     <!-- Testimonials-->
-    <li class="menu-item">
+    <li class="menu-item <?= isActive(['testimonial_mgmt/all_testimonials', 'testimonial_mgmt/pending']) ?>">
+
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-comment-detail"></i>
         <div class="text-truncate" data-i18n="Testimonials">Testimonials</div>
         </a>
         <ul class="menu-sub">
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="All">All</div>
-            <!-- Apil na filter by role -->
+        <li class="menu-item <?= isActive(['all_testimonials.php']) ?>">
+            <a href="dashboard.php?page=testimonial_mgmt/all_testimonials" class="menu-link">
+            <div class="text-truncate" data-i18n="All Testimonial">All</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
+        <li class="menu-item <?= isActive(['pending.php']) ?>">
+            <a href="dashboard.php?page=testimonial_mgmt/pending" class="menu-link">
             <div class="text-truncate" data-i18n="Pending">Pending</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a
-            href="#"
-            class="menu-link"
-            target="_blank">
-            <div class="text-truncate" data-i18n="Email Logs">Email Logs</div>
-            <!-- Cron job -->
-            </a>
-        </li>
-        </ul>
-    </li>
+    </ul>
+</li>
+
+
+<li class="menu-item">
+    <a
+    href="#"
+    class="menu-link"
+    target="_blank">
+    <div class="text-truncate" data-i18n="Email Logs">Email Logs</div>
+    <!-- Cron job -->
+    </a>
+</li>
+
 
     <!-- Activity Logs -->
     <li class="menu-item">

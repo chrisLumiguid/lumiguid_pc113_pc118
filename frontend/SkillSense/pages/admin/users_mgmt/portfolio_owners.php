@@ -6,6 +6,10 @@
     background-color: #f5f5f5;
     cursor: pointer;
 }
+.btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.875rem;
+}
 
 /* White Background Card */
 .content-card {
@@ -13,10 +17,6 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.btn {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.875rem;
 }
 
 /* Transparent Background Table */
@@ -52,12 +52,12 @@
 <!-- Content Wrapper -->
 <div class="content-wrapper">
     <div class="content-card">
-        <h4 class="fw-bold">Employers</h4>
+        <h4 class="fw-bold">Portfolio Owner</h4>
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-between">
             <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#add-new-user">
-                <i class="bi bi-plus"></i> Add New Employer
+                <i class="bi bi-plus"></i> Add New Owner
             </button>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
