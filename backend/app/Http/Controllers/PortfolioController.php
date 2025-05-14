@@ -4,89 +4,80 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;  
+
 
 class PortfolioController extends Controller
 {
-    public function index()
-{
-    $portfolios = Portfolio::all(); // Ensure this retrieves data
-    if ($portfolios->isEmpty()) {
-        return response()->json(['message' => 'Portfolios not found'], 404);
-    }
-    return response()->json($portfolios);
-}
-
-    public function create()
+        public function __construct()
     {
-        return view('portfolios.create');
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+    // 👥 Admin: view all portfolios
+    public function index()
+    {
+        if (Auth::user()->role === 'admin') {
+            $portfolios = Portfolio::all(); // Admin sees all
+        } else {
+            $portfolios = Portfolio::where('portfolio_owner_id', Auth::id())->get(); // Portfolio Owner sees only their own
+        }
+
+        return response()->json($portfolios);
     }
 
+    // 👥 Admin: view single portfolio by ID
+    public function show($id)
+    {
+        $portfolio = Portfolio::findOrFail($id);
+        return response()->json($portfolio);
+    }
+
+    // 👥 Admin or Portfolio Owner: Create
     public function store(Request $request)
     {
-        /** @var \App\Models\PortfolioOwner|null $owner */
-        $owner = Auth::user()->portfolioOwner;  // Use Auth::user() instead of auth()->user()
+        $user = Auth::guard('api')->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
 
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'gallery_images' => 'nullable|array',
-            'gallery_images.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
-            'video_url' => 'nullable|url',
-            'video_file' => 'nullable|file|mimes:mp4,mov,avi|max:10240',
             'category' => 'nullable|string|max:255',
-            'tags' => 'nullable|string',
-            'date_completed' => 'nullable|date',
-            'client_name' => 'nullable|string|max:255',
-            'project_url' => 'nullable|url',
-            'status' => 'required|in:pending,approved,rejected'
+            'tags' => 'nullable|string|max:255',
+            'status' => 'required|in:draft,published,archived',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $portfolio = new Portfolio([
-            'portfolio_owner_id' => $owner?->id,
+        $coverImagePath = null;
+        if ($request->hasFile('cover_image')) {
+            $coverImagePath = $request->file('cover_image')->store('portfolio_covers', 'public');
+        }
+
+        $galleryPaths = [];
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $galleryImage) {
+                $galleryPaths[] = $galleryImage->store('portfolio_galleries', 'public');
+            }
+        }
+
+        $portfolio = Portfolio::create([
+            'portfolio_owner_id' => Auth::id(),
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
             'category' => $validatedData['category'] ?? null,
-            'tags' => json_encode(explode(',', $validatedData['tags'] ?? '')),
-            'date_completed' => $validatedData['date_completed'] ?? null,
-            'client_name' => $validatedData['client_name'] ?? null,
-            'project_url' => $validatedData['project_url'] ?? null,
+            'tags' => $validatedData['tags'] ?? null,
             'status' => $validatedData['status'],
+            'cover_image' => $coverImagePath,
+            'gallery_images' => json_encode($galleryPaths),
         ]);
 
-        if ($request->hasFile('cover_image')) {
-            $portfolio->cover_image = $request->file('cover_image')->store('portfolio_images', 'public');
-        }
-
-        if ($request->has('gallery_images')) {
-            $galleryImages = [];
-            foreach ($request->file('gallery_images') as $image) {
-                $galleryImages[] = $image->store('portfolio_gallery', 'public');
-            }
-            $portfolio->gallery_images = json_encode($galleryImages);
-        }
-
-        if ($request->has('video_url')) {
-            $portfolio->video_url = $validatedData['video_url'];
-        }
-
-        if ($request->hasFile('video_file')) {
-            $portfolio->video_file = $request->file('video_file')->store('portfolio_videos', 'public');
-        }
-
-        $portfolio->save();
-
-        return redirect()->route('portfolios.index')->with('success', 'Portfolio created successfully!');
+        return response()->json(['message' => 'Portfolio created successfully.', 'portfolio' => $portfolio]);
     }
 
-    public function edit($id)
-    {
-        $portfolio = Portfolio::findOrFail($id);
-        return view('portfolios.edit', compact('portfolio'));
-    }
-
+    // 👥 Admin or Portfolio Owner: Update
     public function update(Request $request, $id)
     {
         $portfolio = Portfolio::findOrFail($id);
@@ -94,82 +85,55 @@ class PortfolioController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'gallery_images' => 'nullable|array',
-            'gallery_images.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
-            'video_url' => 'nullable|url',
-            'video_file' => 'nullable|file|mimes:mp4,mov,avi|max:10240',
             'category' => 'nullable|string|max:255',
-            'tags' => 'nullable|string',
-            'date_completed' => 'nullable|date',
-            'client_name' => 'nullable|string|max:255',
-            'project_url' => 'nullable|url',
-            'status' => 'required|in:pending,approved,rejected'
-        ]);
-
-        $portfolio->update([
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'] ?? null,
-            'category' => $validatedData['category'] ?? null,
-            'tags' => json_encode(explode(',', $validatedData['tags'] ?? '')),
-            'date_completed' => $validatedData['date_completed'] ?? null,
-            'client_name' => $validatedData['client_name'] ?? null,
-            'project_url' => $validatedData['project_url'] ?? null,
-            'status' => $validatedData['status']
+            'tags' => 'nullable|string|max:255',
+            'status' => 'required|in:draft,published,archived',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($request->hasFile('cover_image')) {
-            Storage::disk('public')->delete($portfolio->cover_image);
-            $portfolio->cover_image = $request->file('cover_image')->store('portfolio_images', 'public');
-        }
-
-        if ($request->has('gallery_images')) {
-            $oldImages = json_decode($portfolio->gallery_images ?? '[]');
-            foreach ($oldImages as $img) {
-                Storage::disk('public')->delete($img);
+            if ($portfolio->cover_image) {
+                Storage::disk('public')->delete($portfolio->cover_image);
             }
+            $portfolio->cover_image = $request->file('cover_image')->store('portfolio_covers', 'public');
+        }
 
-            $galleryImages = [];
-            foreach ($request->file('gallery_images') as $image) {
-                $galleryImages[] = $image->store('portfolio_gallery', 'public');
+        if ($request->hasFile('gallery_images')) {
+            if ($portfolio->gallery_images) {
+                foreach (json_decode($portfolio->gallery_images) as $oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
             }
-            $portfolio->gallery_images = json_encode($galleryImages);
+            $galleryPaths = [];
+            foreach ($request->file('gallery_images') as $galleryImage) {
+                $galleryPaths[] = $galleryImage->store('portfolio_galleries', 'public');
+            }
+            $portfolio->gallery_images = json_encode($galleryPaths);
         }
 
-        if ($request->has('video_url')) {
-            $portfolio->video_url = $validatedData['video_url'];
-        }
+        $portfolio->update($validatedData);
 
-        if ($request->hasFile('video_file')) {
-            Storage::disk('public')->delete($portfolio->video_file);
-            $portfolio->video_file = $request->file('video_file')->store('portfolio_videos', 'public');
-        }
-
-        $portfolio->save();
-
-        return redirect()->route('portfolios.index')->with('success', 'Portfolio updated successfully!');
+        return response()->json(['message' => 'Portfolio updated successfully.', 'portfolio' => $portfolio]);
     }
 
+    // 👥 Admin or Portfolio Owner: Delete
     public function destroy($id)
     {
         $portfolio = Portfolio::findOrFail($id);
 
-        // Delete media files if they exist
         if ($portfolio->cover_image) {
             Storage::disk('public')->delete($portfolio->cover_image);
         }
 
-        if ($portfolio->video_file) {
-            Storage::disk('public')->delete($portfolio->video_file);
-        }
-
-        $gallery = json_decode($portfolio->gallery_images ?? '[]');
-        foreach ($gallery as $image) {
-            Storage::disk('public')->delete($image);
+        if ($portfolio->gallery_images) {
+            foreach (json_decode($portfolio->gallery_images) as $galleryImage) {
+                Storage::disk('public')->delete($galleryImage);
+            }
         }
 
         $portfolio->delete();
 
-        return redirect()->route('portfolios.index')->with('success', 'Portfolio deleted successfully!');
+        return response()->json(['message' => 'Portfolio deleted successfully.']);
     }
 }

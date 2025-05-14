@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dribbble Profile Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      border-bottom: 1px solid #e5e7eb;
+      background-color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links input {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 9999px;
+      font-size: 14px;
+      width: 220px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .nav-links a:hover {
+      color: #ec4899;
+    }
+
+    .profile-mini {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-mini img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .profile-header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    .profile-details {
+      flex-grow: 1;
+    }
+
+    .profile-details .name {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .profile-details .location {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .status-badge {
+      background-color: #f3f4f6;
+      color: #6b7280;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+    }
+
+    .edit-btn {
+      background-color: #ec4899;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .edit-btn:hover {
+      background-color: #d33785;
+    }
+
+    .mini-navbar {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 40px;
+      padding: 8px 0;
+    }
+
+    .mini-navbar a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+      padding-bottom: 8px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+
+    .mini-navbar a:hover,
+    .mini-navbar a.active {
+      color: #ec4899;
+      border-bottom: 2px solid #ec4899;
+    }
+
+    .create-service-card {
+      background-color: #f9f9fb;
+      border: 2px dashed #ddd;
+      padding: 40px;
+      text-align: center;
+      border-radius: 16px;
+      max-width: 480px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .create-service-card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .create-service-card p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .create-service-card button {
+      background-color: #ec4899;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      padding: 10px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .create-service-card button:hover {
+      background-color: #d33785;
+    }
+
+    footer {
+      background-color: #f9f9fb;
+      padding: 40px 0;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    footer p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    footer a {
+      color: #6b7280;
+      font-size: 14px;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #ec4899;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .edit-btn {
+        margin-top: 16px;
+      }
+
+      .mini-navbar {
+        justify-content: space-between;
+        flex-wrap: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">skillsense.</div>
+    <nav class="nav-links">
+      <input type="text" placeholder="Search...">
+      <a href="#">Explore</a>
+      <a href="#">Hire Designers</a>
+      <a href="#">Jobs</a>
+      <a href="#">Blog</a>
+    </nav>
+    <div class="profile-mini">
+      <img src="https://i.pinimg.com/736x/2a/7d/4c/2a7d4c4bc1381a476b8b8a85885ac392.jpg" alt="Profile" />
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Profile Header -->
+    <section class="profile-header">
+      <img src="https://i.pinimg.com/736x/2a/7d/4c/2a7d4c4bc1381a476b8b8a85885ac392.jpg" alt="Avatar" />
+      <div class="profile-details">
+        <div class="name">Christina Lumiguid</div>
+        <div class="location">Philippines</div>
+      </div>
+      <div class="status-badge">Limited Account</div>
+      <button class="edit-btn">Edit Profile</button>
+    </section>
+
+    <!-- Mini Navbar -->
+    <nav class="mini-navbar">
+      <a href="#" class="active">Work</a>
+      <a href="#">Services</a>
+      <a href="#">Boosted Shots</a>
+      <a href="#">Collections</a>
+      <a href="#">Liked</a>
+      <a href="#">About</a>
+    </nav>
+
+    <!-- Create Service Box -->
+    <article class="create-service-card">
+      <h2>Create New Service</h2>
+      <p>Add a service to show clients what you offer and make booking easy.</p>
+      <button>Create New Service</button>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Dribbble</p>
+    <div>
+      <a href="#">For Designers</a>
+      <a href="#">Hire Talent</a>
+      <a href="#">Inspiration</a>
+      <a href="#">Blog</a>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Support</a>
+    </div>
+  </footer>
+
+</body>
+</html>

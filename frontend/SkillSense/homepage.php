@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SkillSense – Discover Projects</title>
+  <title>skillsense. – Discover Projects</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -55,7 +55,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" href="#">SkillSense</a>
+    <a class="navbar-brand" href="#">skillsense.</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -65,7 +65,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Hire Designers</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
       </ul>
-      <a class="btn btn-signin" href="#" data-bs-toggle="modal" data-bs-target="#roleModal"><i class="bi bi-person-circle me-1"></i>Sign In</a>
+      <a class="btn btn-signin" href="register.php"><i class="bi bi-person-circle me-1"></i>Sign In</a>
     </div>
   </div>
 </nav>
@@ -130,7 +130,7 @@
 <div class="signin-cta">
   <h3>Ready to showcase your portfolio?</h3>
   <p>Sign up now and connect with top employers and clients!</p>
-  <a class="btn btn-dark" href="#" data-bs-toggle="modal" data-bs-target="#roleModal">Get Started</a>
+  <a class="btn btn-dark" href="register.php" data-bs-toggle="modal" data-bs-target="#roleModal">Get Started</a>
 </div>
 
 <!-- Footer -->
@@ -138,34 +138,6 @@
   &copy; 2025 SkillSense. All rights reserved.
 </footer>
 
-<!-- Role Modal -->
-<div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4">
-      <h5 class="modal-title text-center mb-4" id="roleModalLabel">Choose your role</h5>
-      <div class="row text-center">
-        <div class="col-6">
-          <div class="border p-4 rounded-3 hover-shadow" style="cursor:pointer;" onclick="location.href='register_portfolio_owner.php';">
-            <i class="bi bi-person-badge" style="font-size: 2rem; color: var(--blue);"></i>
-            <h6 class="mt-2">Portfolio Owner</h6>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="border p-4 rounded-3 hover-shadow" style="cursor:pointer;" onclick="location.href='register_employer.php';">
-            <i class="bi bi-briefcase" style="font-size: 2rem; color: var(--blue);"></i>
-            <h6 class="mt-2">Employer</h6>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="border p-4 rounded-3 hover-shadow" style="cursor:pointer;" onclick="location.href='login.php';">
-            <i class="bi bi-briefcase" style="font-size: 2rem; color: var(--blue);"></i>
-            <h6 class="mt-2">Admin</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>

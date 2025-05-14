@@ -1,0 +1,74 @@
+<!-- complete_profile.php -->
+<!doctype html>
+<html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Your Profile | SkillSync</title>
+
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <script src="../assets/js/config.js"></script>
+
+  <style>
+    .step { display: none; opacity: 0; transform: translateX(100px); transition: all 0.5s ease; }
+    .step.active { display: block; opacity: 1; transform: translateX(0); }
+    .progress { height: 8px; background-color: #e0e0e0; }
+    .progress-bar { background-color: #696cff; transition: width 0.4s ease; }
+
+    .dropzone {
+      border: 2px dashed #696cff;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      color: #696cff;
+      background-color: #f8f9fa;
+      transition: background-color 0.3s;
+    }
+    .dropzone.dragover {
+      background-color: #e0e7ff;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+      <div class="card p-4">
+        <div class="card-body">
+
+          <h4 class="mb-2 text-center">Complete Your Portfolio Owner Profile 🎯</h4>
+          <p class="mb-4 text-center">Follow the steps below</p>
+
+          <!-- Progress Bar -->
+          <div class="progress-container mb-4">
+            <div class="progress">
+              <div class="progress-bar" id="progressBar" style="width: 17%;"></div>
+            </div>
+            <small class="d-block text-end mt-1" id="progressText">Step 1 of 6</small>
+          </div>
+
+          <div id="errorContainer" class="alert alert-danger d-none"></div>
+
+          <form id="wizardForm" enctype="multipart/form-data">
+            <!-- Steps (Step 1 to Step 6) -->
+            <!-- Existing form structure remains unchanged -->
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

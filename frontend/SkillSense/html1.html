@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      border-bottom: 1px solid #eee;
+      background-color: #fff;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      margin: 0 16px;
+      text-decoration: none;
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .search-bar input {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      width: 240px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar-small {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    /* Profile Section */
+    .profile-container {
+      max-width: 700px;
+      margin: 40px auto 0;
+      text-align: center;
+    }
+
+    .avatar-large {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 16px;
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .location {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 12px;
+      background-color: #f3f4f6;
+      color: #6b7280;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+    }
+
+    .edit-btn {
+      margin-top: 16px;
+      background-color: #0285FF;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .edit-btn:hover {
+      background-color: #40A9FF ;
+    }
+
+    /* Mini Nav Tabs */
+    .mini-nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      border-bottom: 1px solid #eee;
+      margin-top: 40px;
+      padding-bottom: 12px;
+    }
+
+    .mini-nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      text-decoration: none;
+    }
+
+    .mini-nav a.active {
+      color: #000;
+      border-bottom: 2px solid #000;
+      padding-bottom: 6px;
+    }
+
+    /* Placeholder content box */
+    .content-box {
+      max-width: 640px;
+      margin: 40px auto;
+      border: 2px dashed #ddd;
+      text-align: center;
+      padding: 40px;
+      border-radius: 12px;
+      background-color: #fafafa;
+    }
+
+    .content-box h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .content-box p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .create-btn {
+      margin-top: 24px;
+      padding: 10px 24px;
+      background-color: #ec4899;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: #999;
+      padding: 40px 0;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">skillsense.</div>
+    <nav class="nav-links">
+      <a href="#">Inspiration</a>
+      <a href="#">Find Work</a>
+      <a href="#">Learn Design</a>
+      <a href="#">Hire Designers</a>
+    </nav>
+    <div class="header-right">
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." />
+      </div>
+      <img class="avatar-small" src="https://via.placeholder.com/32" alt="avatar">
+    </div>
+  </header>
+
+  <!-- Profile Section -->
+  <div class="profile-container">
+    <img class="avatar-large" src="https://via.placeholder.com/96" alt="avatar">
+    <div class="name">Christina Lumiguid</div>
+    <div class="location">Philippines</div>
+    <div class="status-badge">Limited Account</div>
+    <button class="edit-btn">Edit Profile</button>
+  </div>
+
+  <!-- Mini Navbar -->
+  <div class="mini-nav">
+    <a href="#" class="active">Work</a>
+    <a href="#">Saved</a>
+    <a href="#">Collections</a>
+    <a href="#">About</a>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-box">
+    <h3>Create your first project</h3>
+    <p>Start showcasing your work and share your creativity with others.</p>
+    <button class="create-btn">Upload Project</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Dribbble. All rights reserved.
+  </footer>
+
+</body>
+</html>

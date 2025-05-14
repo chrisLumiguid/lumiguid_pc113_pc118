@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\PortfolioOwner;
-use App\Models\Project;
 
 class Portfolio extends Model
 {
@@ -22,6 +20,11 @@ class Portfolio extends Model
         'category',
         'tags',
         'status',
+        'date_completed',
+        'client_name',
+        'project_url',
+        'video_url',
+        'video_file',
     ];
 
     protected $casts = [

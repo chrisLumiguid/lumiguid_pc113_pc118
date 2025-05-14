@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Register | SkillSync</title>
+    <title>Who I am? | SkillSync</title>
     <meta name="description" content="" />
 
     <!-- Favicon -->
@@ -51,6 +51,12 @@
         color: #696cff;
       }
 
+      /* Hover effect */
+      .role-option:hover {
+        background-color: #f1f1f1;
+        border-color: #696cff;
+      }
+
       .role-option.selected {
         border-color: #696cff;
         background-color: #f5f5ff;
@@ -78,7 +84,7 @@
               <h4 class="mb-1">Adventure starts here 🚀</h4>
               <p class="mb-6">Make your app management easy and fun!</p>
 
-     
+              <form id="formAuthentication" class="mb-6" method="POST">
                 <!-- Role selection box -->
                 <div class="mb-4">
                   <label class="form-label d-block text-center">Select Account Type</label>
@@ -94,11 +100,8 @@
                   </div>
                   <input type="hidden" name="role" id="role" required>
                 </div>
-
-                <a href="homepage.php">
-                  <span><- Back</span>
-                </a>
-              
+                <!-- You can add other form fields here like name, email, etc. -->
+              </form>
             </div>
           </div>
         </div>
@@ -112,32 +115,23 @@
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="../assets/vendor/js/menu.js"></script>
     <script src="../assets/js/main.js"></script>
+
     <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const roleOptions = document.querySelectorAll('.role-option');
-    const roleInput = document.getElementById('role');
+      const roleOptions = document.querySelectorAll('.role-option');
+      const roleInput = document.getElementById('role');
 
-    roleOptions.forEach(option => {
-      option.addEventListener('click', function () {
-        // Remove 'selected' class from all
-        roleOptions.forEach(opt => opt.classList.remove('selected'));
+      roleOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          roleOptions.forEach(o => o.classList.remove('selected'));
+          option.classList.add('selected');
+          roleInput.value = option.getAttribute('data-role');
 
-        // Add 'selected' to clicked one
-        this.classList.add('selected');
-
-        // Set the hidden input value
-        const selectedRole = this.getAttribute('data-role');
-        roleInput.value = selectedRole;
-
-        // Redirect based on role selection
-        if (selectedRole === 'portfolio_owner') {
-          window.location.href = 'complete_profile.php';
-        } else if (selectedRole === 'employer') {
-          window.location.href = 'complete_profile_employer.php';
-        }
+          // Redirect if "Portfolio Owner" is selected
+          if (option.getAttribute('data-role') === 'portfolio_owner') {
+            window.location.href = 'complete_profile.php';
+          }
+        });
       });
-    });
-  });
-</script>
-</body>
+    </script>
+  </body>
 </html>
